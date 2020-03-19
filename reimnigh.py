@@ -14,17 +14,19 @@ args = parser.parse_args()
 briathar = args.briathar
 
 
-
-
-def inséimhithe(litir:str)->bool:
+def is_inséimhithe(litir:str)->bool:
 	return litir in ['b','c','d','f','g','m','p','s','t']
 
+def is_guta (litir:str)->bool:
+	return litir in ['a','o','u','i','e']
+
+def is_caol(focal:str)->bool:
+	return guta_deireanach(focal) in ['i','e']
+
 def guta_deireanach(focal:str)->str:
-	gutaí = [litir for litir in focal if litir in ['a','o','u','i','e']]
+	gutaí = [litir for litir in focal if is_guta(litir) ]
 	return gutaí[-1]
 
-def caol(focal:str)->bool:
-	return guta_deireanach(focal) in ['i','e']
 
 class Leagan():
 	def __init__(self, *,
@@ -38,8 +40,8 @@ class Leagan():
 	def réimnigh(self, fréamh, forainm=""):
 		céad_litir=fréamh[0]
 		litreacha_eile=fréamh[1:]
-		s = self.séimhiú and inséimhithe(céad_litir) and 'h' or ''
-		d = caol(fréamh) and self.caol or self.leathan
+		s = self.séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
+		d = is_caol(fréamh) and self.caol or self.leathan
 		f = self.forainm and f" {forainm}" or ""
 		print(f"{céad_litir}{s}{litreacha_eile}{d}{f}")
 
