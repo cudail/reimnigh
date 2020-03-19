@@ -18,10 +18,10 @@ def is_inséimhithe(litir:str)->bool:
 	return litir in ['b','c','d','f','g','m','p','s','t']
 
 def is_guta (litir:str)->bool:
-	return litir in ['a','o','u','i','e']
+	return litir in ['a','á','o','ó','u','ú','i','í','e','é']
 
 def is_caol(focal:str)->bool:
-	return guta_deireanach(focal) in ['i','e']
+	return guta_deireanach(focal) in ['i','e','í','é']
 
 def guta_deireanach(focal:str)->str:
 	gutaí = [litir for litir in focal if is_guta(litir) ]
