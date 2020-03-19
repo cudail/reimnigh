@@ -30,8 +30,9 @@ def guta_deireanach(focal:str)->str:
 
 class Leagan():
 	def __init__(self, *,
-	             séimhiú:bool=False, urú:bool=False,
+	             do:bool=False, séimhiú:bool=False, urú:bool=False,
 	             forainm:bool=False, leathan:str="", caol:str=""):
+		self.do=do
 		self.séimhiú=séimhiú
 		self.urú=urú
 		self.forainm=forainm
@@ -41,9 +42,11 @@ class Leagan():
 		céad_litir=fréamh[0]
 		litreacha_eile=fréamh[1:]
 		s = self.séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
-		d = is_caol(fréamh) and self.caol or self.leathan
+		d = (self.do and (is_guta(céad_litir) or (céad_litir=='f' and s=='h'))) and "d'" or ''
+
+		dr = is_caol(fréamh) and self.caol or self.leathan
 		f = self.forainm and f" {forainm}" or ""
-		print(f"{céad_litir}{s}{litreacha_eile}{d}{f}")
+		print(f"{d}{céad_litir}{s}{litreacha_eile}{dr}{f}")
 
 class Pearsa():
 	def __init__(self):
@@ -74,12 +77,12 @@ class Réimniú():
 
 céad_réimniú = Réimniú()
 
-céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(séimhiú=True, leathan='amar', caol='eamar')
-céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='amar', caol='eamar')
+céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(do=True, séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(do=True, séimhiú=True, forainm=True)
 céad_réimniú.a_chaite.briathar_saor =      Leagan(leathan='adh', caol='eadh')
 
 
