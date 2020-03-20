@@ -18,7 +18,7 @@ def is_inséimhithe(litir:str)->bool:
 	return litir in ['b','c','d','f','g','m','p','s','t']
 
 def is_guta (litir:str)->bool:
-	return litir in ['a','á','o','ó','u','ú','i','í','e','é']
+	return litir.casefold() in ['a','á','o','ó','u','ú','i','í','e','é']
 
 def is_caol(focal:str)->bool:
 	return guta_deireanach(focal) in ['i','e','í','é']
