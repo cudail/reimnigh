@@ -14,6 +14,10 @@ parser.add_argument('briathar', type=str)
 args = parser.parse_args()
 briathar = args.briathar
 
+gutaí = "aouieáóúíé"
+
+def comhair_siollaí(focal:str)->int:
+	return len(re.findall(f"[{gutaí}]+[^{gutaí}]+", focal))
 
 def uraigh(litir:str)->str:
 	if is_guta(litir):
@@ -24,10 +28,10 @@ def is_inséimhithe(litir:str)->bool:
 	return litir in ['b','c','d','f','g','m','p','s','t']
 
 def is_guta (litir:str)->bool:
-	return litir.casefold() in ['a','á','o','ó','u','ú','i','í','e','é']
+	return litir.casefold() in gutaí
 
 def is_caol(focal:str)->bool:
-	return guta_deireanach(focal) in ['i','e','í','é']
+	return guta_deireanach(focal) in "eéií"
 
 def guta_deireanach(focal:str)->str:
 	gutaí = [litir for litir in focal if is_guta(litir) ]
@@ -50,10 +54,9 @@ class Leagan():
 		self.deireadh=deireadh
 		self.forainm=forainm
 	def réimnigh(self, briathar, forainm=""):
-		if briathar[-4:] == 'aigh':
-			fréamh = briathar[:-4]
-		elif briathar[-3:] == 'igh':
-			fréamh = briathar[:-3]
+
+		if comhair_siollaí(briathar) > 1:
+			fréamh = re.sub(r"^(.+[^a])a?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 		else:
 			fréamh = briathar
 
@@ -225,7 +228,7 @@ dara_réimniú.m_coinn.briathar_saor =      Leagan(mír='do', séimhiú=True, de
 print(briathar)
 print()
 
-if briathar[-3:] == 'igh':
+if comhair_siollaí(briathar) > 1:
 	dara_réimniú.réimnigh(briathar)
 else:
 	céad_réimniú.réimnigh(briathar)
