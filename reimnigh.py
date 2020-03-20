@@ -30,9 +30,9 @@ def guta_deireanach(focal:str)->str:
 
 class Leagan():
 	def __init__(self, *,
-	             do:bool=False, séimhiú:bool=False, urú:bool=False,
+	             mír:str='', séimhiú:bool=False, urú:bool=False,
 	             forainm:bool=False, leathan:str="", caol:str=""):
-		self.do=do
+		self.mír=mír
 		self.séimhiú=séimhiú
 		self.urú=urú
 		self.forainm=forainm
@@ -41,16 +41,15 @@ class Leagan():
 	def réimnigh(self, fréamh, forainm=""):
 		céad_litir=fréamh[0]
 		litreacha_eile=fréamh[1:]
-
 		s = self.séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
-		d = (self.do and (is_guta(céad_litir) or (céad_litir=='f' and s=='h'))) and "d'" or ''
-
-		dr = is_caol(fréamh) and self.caol or self.leathan
+		m=self.mír
+		if self.mír == 'do':
+			m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or ""
+		d = is_caol(fréamh) and self.caol or self.leathan
 		f = self.forainm and f" {forainm}" or ""
-
-		if litreacha_eile[-3:] == 'igh' and dr:
+		if litreacha_eile[-3:] == 'igh' and d:
 			litreacha_eile = litreacha_eile[:-3]
-		print(f"  {d}{céad_litir}{s}{litreacha_eile}{dr}{f}")
+		print(f"  {m}{céad_litir}{s}{litreacha_eile}{d}{f}")
 
 class Pearsa():
 	def __init__(self):
@@ -88,21 +87,21 @@ class Réimniú():
 céad_réimniú = Réimniú()
 dara_réimniú = Réimniú()
 
-céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='amar', caol='eamar')
-céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(do=True, séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(do=True, séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='amar', caol='eamar')
+céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, forainm=True)
 céad_réimniú.a_chaite.briathar_saor =      Leagan(leathan='adh', caol='eadh')
 
-céad_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, leathan='ainn', caol='inn')
-céad_réimniú.a_gchaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, leathan='tá', caol='teá')
-céad_réimniú.a_gchaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, leathan='adh', caol='eadh', forainm=True)
-céad_réimniú.a_gchaite.céad_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='aimis', caol='imis')
-céad_réimniú.a_gchaite.dara_pearsa.iorla =  Leagan(do=True, séimhiú=True, leathan='adh', caol='eadh', forainm=True)
-céad_réimniú.a_gchaite.tríú_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='aidís', caol='idís')
-céad_réimniú.a_gchaite.briathar_saor =      Leagan(do=True, séimhiú=True, leathan='taí', caol='tí')
+céad_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, leathan='ainn', caol='inn')
+céad_réimniú.a_gchaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, leathan='tá', caol='teá')
+céad_réimniú.a_gchaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, leathan='adh', caol='eadh', forainm=True)
+céad_réimniú.a_gchaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='aimis', caol='imis')
+céad_réimniú.a_gchaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, leathan='adh', caol='eadh', forainm=True)
+céad_réimniú.a_gchaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='aidís', caol='idís')
+céad_réimniú.a_gchaite.briathar_saor =      Leagan(mír='do', séimhiú=True, leathan='taí', caol='tí')
 
 céad_réimniú.a_láith.céad_phearsa.uatha = Leagan(leathan='aim', caol='im')
 céad_réimniú.a_láith.dara_pearsa.uatha =  Leagan(leathan='ann', caol='eann', forainm=True)
@@ -120,21 +119,21 @@ céad_réimniú.a_fháist.dara_pearsa.iorla =  Leagan(leathan='faidh', caol='fid
 céad_réimniú.a_fháist.tríú_phearsa.iorla = Leagan(leathan='faidh', caol='fidh', forainm=True)
 céad_réimniú.a_fháist.briathar_saor =      Leagan(leathan='far', caol='fear')
 
-dara_réimniú.a_chaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
-dara_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, forainm=True)
-dara_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
-dara_réimniú.a_chaite.céad_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='aíomar', caol='íomar')
-dara_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(do=True, séimhiú=True, forainm=True)
-dara_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(do=True, séimhiú=True, forainm=True)
+dara_réimniú.a_chaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
+dara_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, forainm=True)
+dara_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
+dara_réimniú.a_chaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='aíomar', caol='íomar')
+dara_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, forainm=True)
+dara_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, forainm=True)
 dara_réimniú.a_chaite.briathar_saor =      Leagan(leathan='aíodh', caol='íodh')
 
-dara_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, leathan='aínn', caol='ínn')
-dara_réimniú.a_gchaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, leathan='aíteá', caol='íteá')
-dara_réimniú.a_gchaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, leathan='aíodh', caol='íodh', forainm=True)
-dara_réimniú.a_gchaite.céad_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='aímis', caol='ímis')
-dara_réimniú.a_gchaite.dara_pearsa.iorla =  Leagan(do=True, séimhiú=True, leathan='aíodh', caol='íodh', forainm=True)
-dara_réimniú.a_gchaite.tríú_phearsa.iorla = Leagan(do=True, séimhiú=True, leathan='aídís', caol='ídís')
-dara_réimniú.a_gchaite.briathar_saor =      Leagan(do=True, séimhiú=True, leathan='aítí', caol='ítí')
+dara_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, leathan='aínn', caol='ínn')
+dara_réimniú.a_gchaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, leathan='aíteá', caol='íteá')
+dara_réimniú.a_gchaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, leathan='aíodh', caol='íodh', forainm=True)
+dara_réimniú.a_gchaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='aímis', caol='ímis')
+dara_réimniú.a_gchaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, leathan='aíodh', caol='íodh', forainm=True)
+dara_réimniú.a_gchaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, leathan='aídís', caol='ídís')
+dara_réimniú.a_gchaite.briathar_saor =      Leagan(mír='do', séimhiú=True, leathan='aítí', caol='ítí')
 
 dara_réimniú.a_láith.céad_phearsa.uatha = Leagan(leathan='aím', caol='ím')
 dara_réimniú.a_láith.dara_pearsa.uatha =  Leagan(leathan='aíonn', caol='íonn', forainm=True)
