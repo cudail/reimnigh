@@ -70,7 +70,8 @@ class Réimniú():
 		self.a_chaite=Aimsir("an aimsir chaite")
 		self.a_gchaite=Aimsir("an aimsir ghnáthchaite")
 		self.a_láith=Aimsir("an aimsir láithreach")
-		self.aimsirí = [self.a_chaite, self.a_gchaite, self.a_láith]
+		self.a_fháist=Aimsir("an aimsir fháistineach")
+		self.aimsirí = [self.a_chaite, self.a_gchaite, self.a_láith, self.a_fháist]
 	def réimnigh(self, fréamh:str):
 		for aimsir in self.aimsirí:
 			print(f"{aimsir.ainm}:")
@@ -111,6 +112,14 @@ céad_réimniú.a_láith.dara_pearsa.iorla =  Leagan(leathan='ann', caol='eann',
 céad_réimniú.a_láith.tríú_phearsa.iorla = Leagan(leathan='ann', caol='eann', forainm=True)
 céad_réimniú.a_láith.briathar_saor =      Leagan(leathan='tar', caol='tear')
 
+céad_réimniú.a_fháist.céad_phearsa.uatha = Leagan(leathan='faidh', caol='fidh', forainm=True)
+céad_réimniú.a_fháist.dara_pearsa.uatha =  Leagan(leathan='faidh', caol='fidh', forainm=True)
+céad_réimniú.a_fháist.tríú_phearsa.uatha = Leagan(leathan='faidh', caol='fidh', forainm=True)
+céad_réimniú.a_fháist.céad_phearsa.iorla = Leagan(leathan='faimid', caol='fimid')
+céad_réimniú.a_fháist.dara_pearsa.iorla =  Leagan(leathan='faidh', caol='fidh', forainm=True)
+céad_réimniú.a_fháist.tríú_phearsa.iorla = Leagan(leathan='faidh', caol='fidh', forainm=True)
+céad_réimniú.a_fháist.briathar_saor =      Leagan(leathan='far', caol='fear')
+
 dara_réimniú.a_chaite.céad_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
 dara_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(do=True, séimhiú=True, forainm=True)
 dara_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(do=True, séimhiú=True, forainm=True)
@@ -135,6 +144,13 @@ dara_réimniú.a_láith.dara_pearsa.iorla =  Leagan(leathan='aíonn', caol='íon
 dara_réimniú.a_láith.tríú_phearsa.iorla = Leagan(leathan='aíonn', caol='íonn', forainm=True)
 dara_réimniú.a_láith.briathar_saor =      Leagan(leathan='aítear', caol='ítear')
 
+dara_réimniú.a_fháist.céad_phearsa.uatha = Leagan(leathan='óidh', caol='eoidh', forainm=True)
+dara_réimniú.a_fháist.dara_pearsa.uatha =  Leagan(leathan='óidh', caol='eoidh', forainm=True)
+dara_réimniú.a_fháist.tríú_phearsa.uatha = Leagan(leathan='óidh', caol='eoidh', forainm=True)
+dara_réimniú.a_fháist.céad_phearsa.iorla = Leagan(leathan='óimid', caol='eoimid')
+dara_réimniú.a_fháist.dara_pearsa.iorla =  Leagan(leathan='óidh', caol='eoidh', forainm=True)
+dara_réimniú.a_fháist.tríú_phearsa.iorla = Leagan(leathan='óidh', caol='eoidh', forainm=True)
+dara_réimniú.a_fháist.briathar_saor =      Leagan(leathan='ófar', caol='eofar')
 
 print(briathar)
 print()
