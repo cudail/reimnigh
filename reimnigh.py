@@ -8,6 +8,7 @@ from argparse import RawTextHelpFormatter
 import sys
 import textwrap
 import re
+import copy
 
 parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
 parser.add_argument('briathar', type=str)
@@ -23,6 +24,9 @@ def uraigh(litir:str)->str:
 	if is_guta(litir):
 		return 'n-'
 	return {'b':'m', 'c':'g', 'd':'n', 'f':'bh', 'g':'n', 'p':'b', 't':'d'}.get(litir)
+
+def cuir_fada(litir:str)->str:
+	return {'á':'a', 'ó':'o', 'ú':'u', 'í':'i', 'é':'e'}.get(litir) or litir
 
 def is_inséimhithe(litir:str)->bool:
 	return litir in ['b','c','d','f','g','m','p','s','t']
@@ -55,10 +59,12 @@ class Leagan():
 		self.forainm=forainm
 	def réimnigh(self, briathar, forainm=""):
 
-		if comhair_siollaí(briathar) > 1:
+		uimhir_réimnithe = comhair_siollaí(briathar) == 1 and 1 or 2
+
+		if uimhir_réimnithe == 2:
 			fréamh = re.sub(r"^(.+[^a])a?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 		else:
-			fréamh = briathar
+			fréamh = re.sub(r"^(.+[^a])a?igh$", r"\1", briathar)
 
 		céad_litir = briathar[0]
 		litreacha_eile = self.gearr and fréamh[1:] or briathar[1:]
@@ -70,6 +76,10 @@ class Leagan():
 			m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or ""
 
 		d = leath_nó_caolaigh(self.deireadh, is_caol(fréamh))
+		if d and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(d[0]).casefold():
+			d = d[1:]
+		if uimhir_réimnithe == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
+			d = f"i{d}"
 		f = self.forainm and f" {forainm}" or ""
 
 		print(f"  {m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}")
@@ -113,12 +123,12 @@ class Réimniú():
 céad_réimniú = Réimniú()
 dara_réimniú = Réimniú()
 
-céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, gearr=False, forainm=True)
+céad_réimniú.a_chaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, gearr=False, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, gearr=False, forainm=True)
 céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh="(e)amar")
-céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, forainm=True)
-céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, forainm=True)
+céad_réimniú.a_chaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, gearr=False, forainm=True)
+céad_réimniú.a_chaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, gearr=False, forainm=True)
 céad_réimniú.a_chaite.briathar_saor =      Leagan(deireadh="(e)adh")
 
 céad_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, deireadh="[a]inn")
@@ -154,7 +164,7 @@ céad_réimniú.m_fosh.tríú_phearsa.iorla = Leagan(mír='go', urú=True, deire
 céad_réimniú.m_fosh.briathar_saor =      Leagan(mír='go', urú=True, deireadh="t(e)ar")
 
 céad_réimniú.m_ord.céad_phearsa.uatha = Leagan(deireadh="[a]im")
-céad_réimniú.m_ord.dara_pearsa.uatha =  Leagan()
+céad_réimniú.m_ord.dara_pearsa.uatha =  Leagan(gearr=False)
 céad_réimniú.m_ord.tríú_phearsa.uatha = Leagan(deireadh="(e)adh", forainm=True)
 céad_réimniú.m_ord.céad_phearsa.iorla = Leagan(deireadh="[a]imis")
 céad_réimniú.m_ord.dara_pearsa.iorla =  Leagan(deireadh="[a]igí")
@@ -225,10 +235,13 @@ dara_réimniú.m_coinn.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, de
 dara_réimniú.m_coinn.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh="[ó](eo)idís")
 dara_réimniú.m_coinn.briathar_saor =      Leagan(mír='do', séimhiú=True, deireadh="[ó](eo)faí")
 
+
 print(briathar)
 print()
 
 if comhair_siollaí(briathar) > 1:
-	dara_réimniú.réimnigh(briathar)
+	réimniú = dara_réimniú
 else:
-	céad_réimniú.réimnigh(briathar)
+	réimniú = céad_réimniú
+
+réimniú.réimnigh(briathar)
