@@ -83,10 +83,12 @@ class Leagan():
 		if self.mír == 'do':
 			m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or ""
 
+		caol = is_caol(fréamh)
+		if caol == None: caol = is_caol(briathar)
 		if self.foirm == Foirm.táite:
-			d = leath_nó_caolaigh(self.deireadh_tháite, is_caol(fréamh) or is_caol(briathar))
+			d = leath_nó_caolaigh(self.deireadh_tháite, caol)
 		elif self.foirm == Foirm.scartha:
-			d = leath_nó_caolaigh(deireadh_scartha, is_caol(fréamh) or is_caol(briathar))
+			d = leath_nó_caolaigh(deireadh_scartha, caol)
 		else:
 			d = ""
 
