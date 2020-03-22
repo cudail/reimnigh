@@ -276,43 +276,25 @@ céad_réimniú_igh.a_chaite.briathar_saor = Leagan(mír='do', séimhiú=True, d
 céad_réimniú_igh.a_gchaite.deireadh_scartha = "íodh"
 céad_réimniú_igh.a_gchaite.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, deireadh_tháite="ínn")
 céad_réimniú_igh.a_gchaite.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, deireadh_tháite="iteá")
-céad_réimniú_igh.a_gchaite.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.a_gchaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="ímis")
-céad_réimniú_igh.a_gchaite.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.a_gchaite.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="íodh")
 céad_réimniú_igh.a_gchaite.briathar_saor =      Leagan(mír='do', séimhiú=True, deireadh_tháite="ití")
 
 céad_réimniú_igh.a_láith.deireadh_scartha = "íonn"
 céad_réimniú_igh.a_láith.céad_phearsa.uatha = Leagan(deireadh_tháite="ím")
-céad_réimniú_igh.a_láith.dara_pearsa.uatha =  Leagan(foirm=Foirm.scartha)
-céad_réimniú_igh.a_láith.tríú_phearsa.uatha = Leagan(foirm=Foirm.scartha)
 céad_réimniú_igh.a_láith.céad_phearsa.iorla = Leagan(deireadh_tháite="ímid")
-céad_réimniú_igh.a_láith.dara_pearsa.iorla =  Leagan(foirm=Foirm.scartha)
-céad_réimniú_igh.a_láith.tríú_phearsa.iorla = Leagan(foirm=Foirm.scartha)
 céad_réimniú_igh.a_láith.briathar_saor =      Leagan(deireadh_tháite="itear")
 
 céad_réimniú_igh.a_fháist.deireadh_scartha = "ífidh"
-céad_réimniú_igh.a_fháist.céad_phearsa.uatha = Leagan(foirm=Foirm.scartha)
-céad_réimniú_igh.a_fháist.dara_pearsa.uatha =  Leagan(foirm=Foirm.scartha)
-céad_réimniú_igh.a_fháist.tríú_phearsa.uatha = Leagan(foirm=Foirm.scartha)
 céad_réimniú_igh.a_fháist.céad_phearsa.iorla = Leagan(deireadh_tháite="ífimid")
-céad_réimniú_igh.a_fháist.dara_pearsa.iorla =  Leagan(foirm=Foirm.scartha)
-céad_réimniú_igh.a_fháist.tríú_phearsa.iorla = Leagan(foirm=Foirm.scartha)
 céad_réimniú_igh.a_fháist.briathar_saor =      Leagan(deireadh_tháite="ífear")
 
 céad_réimniú_igh.m_fosh.deireadh_scartha = "í"
-céad_réimniú_igh.m_fosh.céad_phearsa.uatha = Leagan(mír='go', urú=True, foirm=Foirm.scartha)
-céad_réimniú_igh.m_fosh.dara_pearsa.uatha =  Leagan(mír='go', urú=True, foirm=Foirm.scartha)
-céad_réimniú_igh.m_fosh.tríú_phearsa.uatha = Leagan(mír='go', urú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.m_fosh.céad_phearsa.iorla = Leagan(mír='go', urú=True, deireadh_tháite="ímid")
-céad_réimniú_igh.m_fosh.dara_pearsa.iorla =  Leagan(mír='go', urú=True, foirm=Foirm.scartha)
-céad_réimniú_igh.m_fosh.tríú_phearsa.iorla = Leagan(mír='go', urú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.m_fosh.briathar_saor =      Leagan(mír='go', urú=True, deireadh_tháite="itear")
 
 céad_réimniú_igh.m_ord.deireadh_scartha = "íodh"
 céad_réimniú_igh.m_ord.céad_phearsa.uatha = Leagan(deireadh_tháite="ím")
-céad_réimniú_igh.m_ord.dara_pearsa.uatha =  Leagan(foirm=Foirm.infinideach, forainm=True)
-céad_réimniú_igh.m_ord.tríú_phearsa.uatha = Leagan(foirm=Foirm.scartha)
 céad_réimniú_igh.m_ord.céad_phearsa.iorla = Leagan(deireadh_tháite="ímis")
 céad_réimniú_igh.m_ord.dara_pearsa.iorla =  Leagan(deireadh_tháite="ígí")
 céad_réimniú_igh.m_ord.tríú_phearsa.iorla = Leagan(deireadh_tháite="ídís")
@@ -321,9 +303,7 @@ céad_réimniú_igh.m_ord.briathar_saor =      Leagan(deireadh_tháite="itear")
 céad_réimniú_igh.m_coinn.deireadh_scartha = "ífeadh"
 céad_réimniú_igh.m_coinn.céad_phearsa.uatha = Leagan(mír='do', séimhiú=True, deireadh_tháite="ífinn")
 céad_réimniú_igh.m_coinn.dara_pearsa.uatha =  Leagan(mír='do', séimhiú=True, deireadh_tháite="ífeá")
-céad_réimniú_igh.m_coinn.tríú_phearsa.uatha = Leagan(mír='do', séimhiú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.m_coinn.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="ífimis")
-céad_réimniú_igh.m_coinn.dara_pearsa.iorla =  Leagan(mír='do', séimhiú=True, foirm=Foirm.scartha)
 céad_réimniú_igh.m_coinn.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="ífidís")
 céad_réimniú_igh.m_coinn.briathar_saor =      Leagan(mír='do', séimhiú=True, deireadh_tháite="ífí")
 
