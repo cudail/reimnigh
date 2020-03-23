@@ -1,4 +1,4 @@
-Python script for conjugating regular verbs in Irish. Just pass in the verb as an argument for the script. Has no understand of irregular verbs, so if you put in "tá" expect to get "thá mé" as the past tense.
+Python script for conjugating regular verbs in Irish. Just pass in the verb as an argument for the script. Has no understand of irregular verbs, so if you put in "feic" expect to get "d'fheic mé" as the past tense.
 
 
 - Writen by Caoimhe Ní Chaoimh, © 2020
