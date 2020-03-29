@@ -102,7 +102,7 @@ class Leagan():
 			bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(self.foirm)
 		f = bf and f" {forainm}" or ""
 
-		print(f"  {m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}")
+		return f"{m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}"
 
 class Pearsa():
 	def __init__(self):
@@ -129,17 +129,20 @@ class Réimniú():
 		self.m_coinn=Aimsir("an modh coinníollach")
 		self.aimsirí = [self.a_chaite, self.a_gchaite, self.a_láith, self.a_fháist, self.m_fosh, self.m_ord, self.m_coinn]
 	def réimnigh(self, fréamh:str):
+		aschur = []
 		for aimsir in self.aimsirí:
-			print(f"{aimsir.ainm}:")
-			aimsir.céad_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "mé")
-			aimsir.dara_pearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "tú")
-			aimsir.tríú_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "sí")
-			aimsir.tríú_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "sé")
-			aimsir.céad_phearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "sinn")
-			aimsir.dara_pearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "sibh")
-			aimsir.tríú_phearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "siad")
-			aimsir.briathar_saor.réimnigh(fréamh, aimsir.deireadh_scartha)
-			print()
+			aschur_aimsire = {'ainm':aimsir.ainm, 'pearsana':[]}
+			aschur_aimsire['pearsana'].append(aimsir.céad_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "mé"))
+			aschur_aimsire['pearsana'].append(aimsir.dara_pearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "tú"))
+			aschur_aimsire['pearsana'].append(aimsir.tríú_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "sí"))
+			aschur_aimsire['pearsana'].append(aimsir.tríú_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, "sé"))
+			aschur_aimsire['pearsana'].append(aimsir.céad_phearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "sinn"))
+			aschur_aimsire['pearsana'].append(aimsir.dara_pearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "sibh"))
+			aschur_aimsire['pearsana'].append(aimsir.tríú_phearsa.iorla.réimnigh(fréamh, aimsir.deireadh_scartha, "siad"))
+			aschur_aimsire['pearsana'].append(aimsir.briathar_saor.réimnigh(fréamh, aimsir.deireadh_scartha))
+			aschur.append(aschur_aimsire)
+		return aschur	
+
 
 céad_réimniú = Réimniú()
 dara_réimniú = Réimniú()
@@ -308,9 +311,6 @@ céad_réimniú_igh.m_coinn.tríú_phearsa.iorla = Leagan(mír='do', séimhiú=T
 céad_réimniú_igh.m_coinn.briathar_saor =      Leagan(mír='do', séimhiú=True, deireadh_tháite="ífí")
 
 
-print(briathar)
-print()
-
 if comhair_siollaí(briathar) > 1:
 	réimniú = dara_réimniú
 elif briathar[-3:] == 'igh' and briathar[-4:] != 'éigh':
@@ -318,4 +318,12 @@ elif briathar[-3:] == 'igh' and briathar[-4:] != 'éigh':
 else:
 	réimniú = céad_réimniú
 
-réimniú.réimnigh(briathar)
+
+print(briathar)
+print()
+#print(réimniú.réimnigh(briathar))
+for aimsir in réimniú.réimnigh(briathar):
+	print(aimsir['ainm'])
+	for pearsa in aimsir['pearsana']:
+		print(f"  {pearsa}")
+	print()
