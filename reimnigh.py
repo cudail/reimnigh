@@ -23,8 +23,6 @@ def comhair_siollaí(focal:str)->int:
 	return len(re.findall(f"[{gutaí}]+[^{gutaí}]+", focal))
 
 def uraigh(litir:str)->str:
-	if is_guta(litir):
-		return 'n-'
 	return {'b':'m', 'c':'g', 'd':'n', 'f':'bh', 'g':'n', 'p':'b', 't':'d'}.get(litir)
 
 def cuir_fada(litir:str)->str:
@@ -88,11 +86,13 @@ class Leagan():
 			céad_litir = briathar[0]
 			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:]
 
-			m = mír and f"{mír} " or ''
 			u = urú and uraigh(céad_litir) or ''
 			s = séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
+			m = mír and f"{mír} " or ''
 			if mír == 'do':
 				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or ""
+			elif mír == 'go' and is_guta(céad_litir):
+				m = 'go n-'
 
 			caol = is_caol(fréamh)
 			if caol == None: caol = is_caol(briathar)
