@@ -14,8 +14,26 @@ from typing import List
 
 parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
 parser.add_argument('briathar', type=str)
+
+parser.add_argument('-c', help='taispeántar an aimsir chaite', action='store_true')
+parser.add_argument('-C', help='taispeántar an aimsir ghnáchchaite', action='store_true')
+parser.add_argument('-l', help='taispeántar an aimsir láithreach', action='store_true')
+parser.add_argument('-f', help='taispeántar an aimsir fháistineach', action='store_true')
+parser.add_argument('-F', help='taispeántar an modh foshuiteach', action='store_true')
+parser.add_argument('-o', help='taispeántar an modh ordaitheach', action='store_true')
+parser.add_argument('-O', help='taispeántar an modh coinníollach', action='store_true')
+
 args = parser.parse_args()
 briathar = args.briathar
+a_chaite = args.c
+a_gchaite = args.C
+a_láith = args.l
+a_fháist = args.f
+m_fosh = args.F
+m_ord = args.o
+m_coinn = args.O
+
+gach_aimsirí = not (a_chaite or a_gchaite or a_láith or a_fháist or m_fosh or m_ord or m_coinn)
 
 gutaí = "aouieáóúíé"
 
@@ -141,7 +159,14 @@ class Réimniú():
 		self.m_fosh=Aimsir("an modh foshuiteach")
 		self.m_ord=Aimsir("an modh ordaitheach")
 		self.m_coinn=Aimsir("an modh coinníollach")
-		self.aimsirí = [self.a_chaite, self.a_gchaite, self.a_láith, self.a_fháist, self.m_fosh, self.m_ord, self.m_coinn]
+		self.aimsirí = []
+		if gach_aimsirí or a_chaite:  self.aimsirí.append(self.a_chaite)
+		if gach_aimsirí or a_gchaite: self.aimsirí.append(self.a_gchaite)
+		if gach_aimsirí or a_láith:   self.aimsirí.append(self.a_láith)
+		if gach_aimsirí or a_fháist:  self.aimsirí.append(self.a_fháist)
+		if gach_aimsirí or m_fosh:    self.aimsirí.append(self.m_fosh)
+		if gach_aimsirí or m_ord:     self.aimsirí.append(self.m_ord)
+		if gach_aimsirí or m_coinn:   self.aimsirí.append(self.m_coinn)
 	def réimnigh(self, fréamh:str):
 		aschur = []
 		for aimsir in self.aimsirí:
