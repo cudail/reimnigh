@@ -393,12 +393,14 @@ def priontáil_toradh(toradh:List):
 				if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
 					leithid_colún[i] = len(cill)
 	for aimsir in toradh:
-		print("  " + aimsir['ainm'])
+		if len(toradh) > 1:
+			print("  " + aimsir['ainm'])
 		for ró in aimsir['pearsana']:
 			líne=""
 			for i, cill in enumerate(ró):
 				líne += cill + " " * (leithid_colún[i] - len(cill) + 4)
-			print(líne)	
-		print()
+			print(líne)
+		if aimsir != toradh[-1]:
+			print()
 
 priontáil_toradh(cén_réimniú(briathar).réimnigh(briathar))
