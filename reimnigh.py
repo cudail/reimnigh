@@ -373,34 +373,34 @@ else:
 	réimniú = céad_réimniú
 
 def priontáil_tábla(tábla:List):
-	column_widths={}
+	leithid_colún={}
 	for ró in tábla:
 		for i, cill in enumerate(ró):
-			if column_widths.get(i) == None or len(cill) > column_widths.get(i):
-				column_widths[i] = len(cill)
+			if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
+				leithid_colún[i] = len(cill)
 	for ró in tábla:
 		aschur=""
 		for i, cill in enumerate(ró):
-			aschur += cill + " " * (column_widths[i] - len(cill) + 4)
+			aschur += cill + " " * (leithid_colún[i] - len(cill) + 4)
 		print(aschur)	
 
 
 print(briathar)
 print()
 
-column_widths={}
+leithid_colún={}
 réimnithe = réimniú.réimnigh(briathar)
 for aimsir in réimnithe:
 	for ró in aimsir['pearsana']:
 		for i, cill in enumerate(ró):
-			if column_widths.get(i) == None or len(cill) > column_widths.get(i):
-				column_widths[i] = len(cill)
+			if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
+				leithid_colún[i] = len(cill)
 
 for aimsir in réimnithe:
 	print("  " + aimsir['ainm'])
 	for ró in aimsir['pearsana']:
 		líne=""
 		for i, cill in enumerate(ró):
-			líne += cill + " " * (column_widths[i] - len(cill) + 4)
+			líne += cill + " " * (leithid_colún[i] - len(cill) + 4)
 		print(líne)	
 	print()
