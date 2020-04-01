@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
 parser.add_argument('briathar', type=str)
 
 parser.add_argument('-c', help='taispeántar an aimsir chaite', action='store_true')
-parser.add_argument('-C', help='taispeántar an aimsir ghnáchchaite', action='store_true')
+parser.add_argument('-g', help='taispeántar an aimsir ghnáchchaite', action='store_true')
 parser.add_argument('-l', help='taispeántar an aimsir láithreach', action='store_true')
 parser.add_argument('-f', help='taispeántar an aimsir fháistineach', action='store_true')
 parser.add_argument('-F', help='taispeántar an modh foshuiteach', action='store_true')
@@ -30,15 +30,22 @@ parser.add_argument('-0', help='taispeántar an briathar saor', action='store_tr
 parser.add_argument('-u', help='taispeántar an uatha', action='store_true')
 parser.add_argument('-i', help='taispeántar an iolra', action='store_true')
 
+parser.add_argument('-d', help='taispeántar an foirm dhearfach', action='store_true')
+parser.add_argument('-D', help='taispeántar an foirm dhiúltach', action='store_true')
+parser.add_argument('-C', help='taispeántar an foirm cheisteach', action='store_true')
+
 args = parser.parse_args()
 briathar = args.briathar
 a_chaite = args.c
-a_gchaite = args.C
+a_gchaite = args.g
 a_láith = args.l
 a_fháist = args.f
 m_fosh = args.F
 m_ord = args.o
 m_coinn = args.O
+f_dhearfach = args.d
+f_dhiúltach = args.D
+f_cheisteach = args.C
 
 briathar_saor = getattr(args, '0')
 céad_phearsa = getattr(args, '1')
@@ -52,6 +59,7 @@ gach_pearsana = not (céad_phearsa or dara_pearsa or tríú_pearsa) and not bria
 uathar_agus_uathar = not (uathar or iolra)
 if briathar_saor and not uathar_agus_uathar and not (céad_phearsa or dara_pearsa or tríú_pearsa):
 	gach_pearsana = True
+gach_foirm = not (f_dhearfach or f_dhiúltach or f_cheisteach)
 
 gutaí = "aouieáóúíé"
 
@@ -186,8 +194,14 @@ class Réimniú():
 	def réimnigh(self, fréamh:str):
 		aschur = []
 		for aimsir in self.aimsirí:
-			foirmeacha = [aimsir.dearfach,  aimsir.diúltach]
-			if aimsir.ceisteach != None: foirmeacha.append(aimsir.ceisteach)
+			foirmeacha = []
+			if aimsir.dearfach and gach_foirm or f_dhearfach:
+				foirmeacha.append(aimsir.dearfach)
+			if aimsir.diúltach and gach_foirm or f_dhiúltach:
+							foirmeacha.append(aimsir.diúltach)
+			if aimsir.ceisteach and gach_foirm or f_cheisteach:
+							foirmeacha.append(aimsir.ceisteach)
+
 			aschur_aimsire = {'ainm':aimsir.ainm, 'pearsana':[]}
 			if (gach_pearsana or céad_phearsa) and (uathar_agus_uathar or uathar):
 				aschur_aimsire['pearsana'].append(aimsir.céad_phearsa.uatha.réimnigh(fréamh, aimsir.deireadh_scartha, foirmeacha, "mé"))
