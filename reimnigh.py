@@ -112,12 +112,10 @@ class Leagan():
 			séimhiú = self.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or self.séimhiú
 			forainmnigh = self.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or self.forainmnigh
 
-			uimhir_réimnithe = comhair_siollaí(briathar) == 1 and 1 or 2
-
-			if uimhir_réimnithe == 2:
-				fréamh = re.sub(r"^(.+[^a])a?i(?:([lrns])|(gh))$", r"\1\2", briathar)
-			else:
+			if comhair_siollaí(briathar) == 1 or briathar[-3:] == 'áin':
 				fréamh = re.sub(r"^((?:.+[^a])|.)a?igh$", r"\1", briathar)
+			else:
+				fréamh = re.sub(r"^(.+[^a])a?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 
 			céad_litir = briathar[0]
 			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:]
@@ -141,7 +139,7 @@ class Leagan():
 
 			if d and litreacha_eile and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(d[0]).casefold():
 				d = d[1:]
-			if uimhir_réimnithe == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
+			if comhair_siollaí(briathar) == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
 				d = f"i{d}"
 
 			bf = forainmnigh
@@ -364,13 +362,14 @@ céad_réimniú_igh.m_coinn.céad_phearsa.iorla = Leagan(mír='do', séimhiú=Tr
 céad_réimniú_igh.m_coinn.tríú_pearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="ífidís")
 céad_réimniú_igh.m_coinn.briathar_saor      = Leagan(mír='do', séimhiú=True, deireadh_tháite="ífí")
 
-
-if comhair_siollaí(briathar) > 1:
-	réimniú = dara_réimniú
-elif briathar[-3:] == 'igh' and briathar[-4:] != 'éigh':
-	réimniú = céad_réimniú_igh
-else:
-	réimniú = céad_réimniú
+def cén_réimniú(briathar:str)->Réimniú:
+	if comhair_siollaí(briathar) == 1:
+		if briathar[-3:] == 'igh' and briathar[-4:] != 'éigh':
+			return céad_réimniú_igh
+		return céad_réimniú
+	elif len(briathar) > 2 and briathar[-3:] in ['áil', 'áin', 'óil']:
+		return céad_réimniú
+	return dara_réimniú
 
 def priontáil_toradh(toradh:List):
 	leithid_colún={}
@@ -388,4 +387,4 @@ def priontáil_toradh(toradh:List):
 			print(líne)	
 		print()
 
-priontáil_toradh(réimniú.réimnigh(briathar))
+priontáil_toradh(cén_réimniú(briathar).réimnigh(briathar))
