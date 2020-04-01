@@ -372,35 +372,20 @@ elif briathar[-3:] == 'igh' and briathar[-4:] != 'éigh':
 else:
 	réimniú = céad_réimniú
 
-def priontáil_tábla(tábla:List):
+def priontáil_toradh(toradh:List):
 	leithid_colún={}
-	for ró in tábla:
-		for i, cill in enumerate(ró):
-			if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
-				leithid_colún[i] = len(cill)
-	for ró in tábla:
-		aschur=""
-		for i, cill in enumerate(ró):
-			aschur += cill + " " * (leithid_colún[i] - len(cill) + 4)
-		print(aschur)	
+	for aimsir in toradh:
+		for ró in aimsir['pearsana']:
+			for i, cill in enumerate(ró):
+				if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
+					leithid_colún[i] = len(cill)
+	for aimsir in toradh:
+		print("  " + aimsir['ainm'])
+		for ró in aimsir['pearsana']:
+			líne=""
+			for i, cill in enumerate(ró):
+				líne += cill + " " * (leithid_colún[i] - len(cill) + 4)
+			print(líne)	
+		print()
 
-
-print(briathar)
-print()
-
-leithid_colún={}
-réimnithe = réimniú.réimnigh(briathar)
-for aimsir in réimnithe:
-	for ró in aimsir['pearsana']:
-		for i, cill in enumerate(ró):
-			if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
-				leithid_colún[i] = len(cill)
-
-for aimsir in réimnithe:
-	print("  " + aimsir['ainm'])
-	for ró in aimsir['pearsana']:
-		líne=""
-		for i, cill in enumerate(ró):
-			líne += cill + " " * (leithid_colún[i] - len(cill) + 4)
-		print(líne)	
-	print()
+priontáil_toradh(réimniú.réimnigh(briathar))
