@@ -171,7 +171,7 @@ class Leagan():
 			a = aibhsigh and aibhsithe or ''
 			n = aibhsigh and neamhaibhsithe or ''
 			
-			aschur.append(f"{m}{n}{céad_litir}{a}{s}{n}{litreacha_eile}{a}{d}{n}{f}")
+			aschur.append(f"{m}{a}{u}{n}{céad_litir}{a}{s}{n}{litreacha_eile}{a}{d}{n}{f}")
 		return aschur
 
 class Pearsa():
