@@ -36,6 +36,8 @@ parser.add_argument('-C', help='taispeántar an foirm cheisteach', action='store
 
 parser.add_argument('-m', help='úsáidtear an chanúint na Mumhan', action='store_true')
 
+parser.add_argument('-a', help='aibhsítear athruithe', action='store_true')
+
 args = parser.parse_args()
 briathar = args.briathar
 a_chaite = args.c
@@ -49,6 +51,7 @@ f_dhearfach = args.d
 f_dhiúltach = args.D
 f_cheisteach = args.C
 c_mumhan = args.m
+aibhsigh = args.a
 
 briathar_saor = getattr(args, '0')
 céad_phearsa = getattr(args, '1')
@@ -63,6 +66,11 @@ uathar_agus_uathar = not (uathar or iolra)
 if briathar_saor and not uathar_agus_uathar and not (céad_phearsa or dara_pearsa or tríú_pearsa):
 	gach_pearsana = True
 gach_foirm = not (f_dhearfach or f_dhiúltach or f_cheisteach)
+
+aibhsithe = '\033[01m'
+neamhaibhsithe = '\033[21m'
+folínithe = '\033[04m'
+neamhfolínithe = '\033[24m'
 
 gutaí = "aouieáóúíé"
 
@@ -159,7 +167,11 @@ class Leagan():
 			if bf == None:
 				bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(foirm)
 			f = bf and f" {forainm}" or ""
-			aschur.append(f"{m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}")
+			
+			a = aibhsigh and aibhsithe or ''
+			n = aibhsigh and neamhaibhsithe or ''
+			
+			aschur.append(f"{m}{n}{céad_litir}{a}{s}{n}{litreacha_eile}{a}{d}{n}{f}")
 		return aschur
 
 class Pearsa():
@@ -519,7 +531,9 @@ def priontáil_toradh(toradh:List):
 					leithid_colún[i] = len(cill)
 	for aimsir in toradh:
 		if len(toradh) > 1:
-			print("  " + aimsir['ainm'])
+			f = aibhsigh and folínithe or ''
+			n = aibhsigh and neamhfolínithe or ''
+			print(f"  {f}{aimsir['ainm']}{n}")
 		for ró in aimsir['pearsana']:
 			líne=""
 			for i, cill in enumerate(ró):
