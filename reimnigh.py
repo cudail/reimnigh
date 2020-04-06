@@ -110,9 +110,10 @@ class Foirm(Enum):
 	infinideach=auto()
 
 class Leagan():
-	def __init__(self, *, mír:str=None, urú:bool=None, séimhiú:bool=None,
+	def __init__(self, *, mír:str=None, h_réimír:bool=None, urú:bool=None, séimhiú:bool=None,
 	             forainmnigh:bool=None, foirm:Foirm=None, deireadh_tháite:str=None):
 		self.mír=mír
+		self.h_réimír=h_réimír
 		self.urú=urú
 		self.séimhiú=séimhiú
 		self.foirm=foirm
@@ -129,6 +130,7 @@ class Leagan():
 				mír = bunleagan.mír
 			else:
 				mír = leagan.mír == None and ( bunleagan == None or None or bunleagan.mír ) or leagan.mír
+			h_réimír = leagan.h_réimír == None and ( bunleagan == None or None or bunleagan.h_réimír ) or leagan.h_réimír
 			urú = leagan.urú == None and ( bunleagan == None or None or bunleagan.urú ) or leagan.urú
 			séimhiú = leagan.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or leagan.séimhiú
 			forainmnigh = leagan.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or leagan.forainmnigh
@@ -141,8 +143,13 @@ class Leagan():
 			céad_litir = briathar[0]
 			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:]
 
-			u = urú and uraigh(céad_litir) or ''
+			if is_guta(céad_litir):
+				u = h_réimír and 'h' or ''
+			else:
+				u = urú and uraigh(céad_litir) or ''
+
 			s = séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
+
 			m = mír and f"{mír} " or ''
 			if mír == 'do':
 				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or c_mumhan and "do " or ""
@@ -323,7 +330,7 @@ céad_réimniú.m_fosh.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]i
 
 
 céad_réimniú.m_ord.deireadh_scartha = "(e)adh"
-céad_réimniú.m_ord.diúltach = Leagan(mír='ná', séimhiú=False)
+céad_réimniú.m_ord.diúltach = Leagan(mír='ná', h_réimír=True)
 céad_réimniú.m_ord.ceisteach = None
 céad_réimniú.m_ord.céad_phearsa.uatha = Leagan(deireadh_tháite="[a]im")
 céad_réimniú.m_ord.dara_pearsa.uatha  = Leagan(foirm=Foirm.infinideach, forainmnigh=False)
