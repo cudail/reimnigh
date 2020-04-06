@@ -28,6 +28,8 @@ By default will show all persons in all tenses in affirmative, negative and inte
 
     -m chanúint na Mumhan / Munster dialect
 
+    -a aibhsítear athruithe / highlight mutations (ANSI escape sequences)
+
 ## examples:
 
     $ python reimnigh.py eitil -1ucd
