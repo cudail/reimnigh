@@ -167,6 +167,8 @@ class Leagan():
 
 			if d and litreacha_eile and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(d[0]).casefold():
 				d = d[1:]
+			if litreacha_eile and litreacha_eile[-1] == 'ó' and d[0] == 'a':
+				d = d[1:]
 			if comhair_siollaí(briathar) == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
 				d = f"i{d}"
 
