@@ -135,10 +135,12 @@ class Leagan():
 			séimhiú = leagan.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or leagan.séimhiú
 			forainmnigh = leagan.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or leagan.forainmnigh
 
-			if comhair_siollaí(briathar) == 1 or briathar[-3:] == 'áin':
+			if len(briathar) > 2 and briathar[-3:] == 'igh':
 				fréamh = re.sub(r"^((?:.+[^a])|.)a?igh$", r"\1", briathar)
+			elif comhair_siollaí(briathar) > 1:
+				fréamh = re.sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 			else:
-				fréamh = re.sub(r"^(.+[^a])a?i(?:([lrns])|(gh))$", r"\1\2", briathar)
+				fréamh = briathar
 
 			céad_litir = briathar[0]
 			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:]
