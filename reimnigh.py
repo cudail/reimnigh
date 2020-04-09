@@ -531,7 +531,7 @@ céad_réimniú_igh.m_coinn.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite
 
 def cén_réimniú(briathar:str)->Réimniú:
 	if comhair_siollaí(briathar) > 1:
-		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in']:
+		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in', 'is']:
 			if briathar[-3:] not in ['áil', 'áin', 'óil']:
 				return dara_réimniú
 	if briathar[-3:] == 'igh' and briathar[-4:] not in ['éigh', 'óigh']:
