@@ -159,6 +159,11 @@ class Leagan():
 				m = 'go n-'
 
 			caol = is_caol(fréamh)
+
+			if briathar[-3:] == 'áil' and litreacha_eile[-2:] == 'ál' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+				caol = True
+				litreacha_eile = litreacha_eile[:-2] + 'áil'
+
 			if caol == None: caol = is_caol(briathar)
 			if foirm == Foirm.táite:
 				d = leath_nó_caolaigh(leagan.deireadh_tháite, caol)
