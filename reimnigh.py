@@ -160,12 +160,8 @@ class Leagan():
 		for bunleagan in leaganacha:
 			# Build rules from hierarchy. If this object has a rule specified itself, use that
 			# otherwise check if the base form for this tense has it defined
-			# otherwise use a default
 			foirm = leagan.foirm or bunleagan and bunleagan.forainmnigh or Foirm.táite # synthetic form if not specified otherwise
-			if leagan.mír == '' and bunleagan and (bunleagan.mír[0] == 'n' or bunleagan.mír[0] == 'a'):
-				mír = bunleagan.mír
-			else:
-				mír = leagan.mír == None and ( bunleagan == None or None or bunleagan.mír ) or leagan.mír
+			mír = leagan.mír == None and ( bunleagan == None or None or bunleagan.mír ) or leagan.mír
 			h_réimír = leagan.h_réimír == None and ( bunleagan == None or None or bunleagan.h_réimír ) or leagan.h_réimír
 			urú = leagan.urú == None and ( bunleagan == None or None or bunleagan.urú ) or leagan.urú
 			séimhiú = leagan.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or leagan.séimhiú
@@ -191,11 +187,13 @@ class Leagan():
 			# do we have lenition?
 			s = séimhiú and is_inséimhithe(céad_litir) and aibhsigh('h') or ''
 
-			m = mír and f"{mír} " or ''
+			
 			if mír == 'do': # 'do' is supressed except in munster forms and if we're using the Munster dialect
 				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and aibhsigh("d'") or c_mumhan and "do " or ""
 			elif mír == 'go' and is_guta(céad_litir): # 'go' adds an n- prefix to vowels
 				m = 'go ' + aibhsigh('n-')
+			else:
+				m = mír and f"{mír} " or ''
 
 			# is our stem slender or broad?
 			caol = is_caol(fréamh)
