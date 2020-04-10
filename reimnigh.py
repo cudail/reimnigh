@@ -223,7 +223,7 @@ class Leagan():
 				deireadh = ''
 
 			# remove double vowels if the stem ends with the same letter the ending starts with
-			if deireadh and litreacha_eile and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
+			if deireadh and fréamh and cuir_fada(fréamh[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
 				deireadh = deireadh[1:]
 			# if stem ends in ó or ú and ending ends in a, remove the a
 			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó','ú'] and deireadh[0] == 'a':
