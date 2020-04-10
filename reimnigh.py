@@ -229,13 +229,13 @@ class Leagan():
 				deireadh = f"i{deireadh}"
 			deireadh = aibhsigh(deireadh)
 
-			bf = forainmnigh
-			if bf == None:
-				# if we didn't specify if pronouns should be shown or not, use these defaults based on what form it is
-				bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(foirm)
-			f = bf and f" {forainm}" or ""
-			
-			aschur.append(f"{mír}{mír and ' ' or ''}{réimnír}{céad_litir}{s}{litreacha_eile}{deireadh}{f}")
+			# if we didn't specify if pronouns should be shown or not
+			# then show them unless we're using a synthetic form
+			if forainmnigh == False or foirm == Foirm.táite:
+				forainm = ''
+
+			focal = f"{réimnír}{céad_litir}{s}{litreacha_eile}{deireadh}"
+			aschur.append(f"{mír}{mír and ' ' or ''}{focal}{forainm and ' ' or ''}{forainm}")
 		return aschur
 
 # Person
