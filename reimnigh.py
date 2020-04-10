@@ -48,7 +48,7 @@ f_dhearfach = args.d
 f_dhiúltach = args.D
 f_cheisteach = args.C
 c_mumhan = args.m
-aibhsigh = args.a
+r_aibhsigh = args.a
 
 briathar_saor = getattr(args, '0')
 céad_phearsa = getattr(args, '1')
@@ -73,12 +73,6 @@ if briathar_saor and not uathar_agus_uathar and not (céad_phearsa or dara_pears
 
 # if none of affirmative, negative or interrogative forms are specified, show all of them
 gach_foirm = not (f_dhearfach or f_dhiúltach or f_cheisteach)
-
-# ASNI escape sequences for highlighting
-aibhsithe = '\033[01m'
-neamhaibhsithe = '\033[21m'
-folínithe = '\033[04m'
-neamhfolínithe = '\033[24m'
 
 # vowels
 gutaí = "aouieáóúíé"
@@ -123,6 +117,19 @@ def leath_nó_caolaigh(deireadh:str, caol:bool)->str:
 		return sub(r"\(\w+\)|[\[\]]", "", deireadh)
 
 
+# highlight string if ANSI highlights are enabled
+def aibhsigh(teaghrán:str) ->str:
+	if r_aibhsigh and teaghrán:
+		return f"\033[01m{teaghrán}\033[21m"
+	return teaghrán
+
+# underline string if ANSI highlights are enabled
+def folínigh(teaghrán:str) ->str:
+	if r_aibhsigh and teaghrán:
+		return f"\033[04m{teaghrán}\033[24m"
+	return teaghrán
+
+
 # analytic, synthetic or infinitive form
 class Foirm(Enum):
 	scartha=auto()
@@ -149,7 +156,7 @@ class Leagan():
 	def réimnigh(self, briathar, deireadh_scartha, leaganacha=None, forainm=""):
 		aschur = [] #output stored in list
 		leagan = (c_mumhan and self.mumhan) and self.mumhan or self  #check if we're using the Munster form
-		
+
 		for bunleagan in leaganacha:
 			# Build rules from hierarchy. If this object has a rule specified itself, use that
 			# otherwise check if the base form for this tense has it defined
@@ -177,18 +184,18 @@ class Leagan():
 
 			# Do we have enclipsis or a prefix?
 			if is_guta(céad_litir):
-				u = h_réimír and 'h' or ''
+				u = h_réimír and aibhsigh('h') or ''
 			else:
-				u = urú and uraigh(céad_litir) or ''
+				u = urú and aibhsigh(uraigh(céad_litir)) or ''
 
 			# do we have lenition?
-			s = séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
+			s = séimhiú and is_inséimhithe(céad_litir) and aibhsigh('h') or ''
 
 			m = mír and f"{mír} " or ''
 			if mír == 'do': # 'do' is supressed except in munster forms and if we're using the Munster dialect
-				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and "d'" or c_mumhan and "do " or ""
+				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and aibhsigh("d'") or c_mumhan and "do " or ""
 			elif mír == 'go' and is_guta(céad_litir): # 'go' adds an n- prefix to vowels
-				m = 'go n-'
+				m = 'go ' + aibhsigh('n-')
 
 			# is our stem slender or broad?
 			caol = is_caol(fréamh)
@@ -213,6 +220,7 @@ class Leagan():
 				d = d[1:] # if stem ends in ó and ending ends in a, remove the a
 			if comhair_siollaí(briathar) == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
 				d = f"i{d}"
+			d = aibhsigh(d)
 
 			bf = forainmnigh
 			if bf == None:
@@ -220,11 +228,7 @@ class Leagan():
 				bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(foirm)
 			f = bf and f" {forainm}" or ""
 			
-			# are ANSI highlighs enabled?
-			a = aibhsigh and aibhsithe or ''
-			n = aibhsigh and neamhaibhsithe or ''
-			
-			aschur.append(f"{m}{a}{u}{n}{céad_litir}{a}{s}{n}{litreacha_eile}{a}{d}{n}{f}")
+			aschur.append(f"{m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}")
 		return aschur
 
 # Person
@@ -595,9 +599,7 @@ def priontáil_toradh(toradh:List):
 	for aimsir in toradh:
 		#if more than one tense was specified, print the name of each tense
 		if len(toradh) > 1:
-			f = aibhsigh and folínithe or ''
-			n = aibhsigh and neamhfolínithe or ''
-			print(f"  {f}{aimsir['ainm']}{n}")
+			print(f"  {folínigh(aimsir['ainm'])}")
 		for ró in aimsir['pearsana']:
 			líne=""
 			for i, cill in enumerate(ró):
