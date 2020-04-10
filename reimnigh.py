@@ -141,10 +141,9 @@ class Foirm(Enum):
 #      is a synthetic form with an ending "aim" or "im"
 #      -> foirm=Foirm.táite, deireadh_tháite="[a]im" 
 class Leagan():
-	def __init__(self, *, mír:str=None, h_réimír:bool=None, urú:bool=None, séimhiú:bool=None,
+	def __init__(self, *, mír:str=None, urú:bool=None, séimhiú:bool=None,
 	             forainmnigh:bool=None, foirm:Foirm=None, deireadh_tháite:str=None):
 		self.mír=mír
-		self.h_réimír=h_réimír
 		self.urú=urú
 		self.séimhiú=séimhiú
 		self.foirm=foirm
@@ -162,10 +161,10 @@ class Leagan():
 			# otherwise check if the base form for this tense has it defined
 			foirm = leagan.foirm or bunleagan and bunleagan.forainmnigh or Foirm.táite # synthetic form if not specified otherwise
 			mír = leagan.mír == None and ( bunleagan == None or None or bunleagan.mír ) or leagan.mír
-			h_réimír = leagan.h_réimír == None and ( bunleagan == None or None or bunleagan.h_réimír ) or leagan.h_réimír
 			urú = leagan.urú == None and ( bunleagan == None or None or bunleagan.urú ) or leagan.urú
 			séimhiú = leagan.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or leagan.séimhiú
 			forainmnigh = leagan.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or leagan.forainmnigh
+
 
 			# from stems for verbs ending in -igh, il, ir, in and is
 			if len(briathar) > 2 and briathar[-3:] == 'igh':
@@ -178,22 +177,28 @@ class Leagan():
 			céad_litir = briathar[0] #first letter
 			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:] #rest of the word
 
-			# Do we have enclipsis or a prefix?
-			if is_guta(céad_litir):
-				u = h_réimír and aibhsigh('h') or ''
-			else:
-				u = urú and aibhsigh(uraigh(céad_litir)) or ''
-
 			# do we have lenition?
 			s = séimhiú and is_inséimhithe(céad_litir) and aibhsigh('h') or ''
-
 			
-			if mír == 'do': # 'do' is supressed except in munster forms and if we're using the Munster dialect
-				m = (is_guta(céad_litir) or (céad_litir=='f' and s=='h')) and aibhsigh("d'") or c_mumhan and "do " or ""
-			elif mír == 'go' and is_guta(céad_litir): # 'go' adds an n- prefix to vowels
-				m = 'go ' + aibhsigh('n-')
-			else:
-				m = mír and f"{mír} " or ''
+			# prefix
+			réimnír = urú and aibhsigh(uraigh(céad_litir)) or ''
+
+			if mír == None:
+				mír = ''
+			# particles can cause mutations
+			# 'go' causes vowels to take an n- prefix
+			elif mír == 'go' and is_guta(céad_litir):
+				réimnír = aibhsigh('n-')
+			# 'ná' causes vowels to take a h- prefix
+			elif mír == 'ná' and is_guta(céad_litir):
+				réimnír = aibhsigh('h')
+			# 'do' is supressed unless the verb starts with a vowel or we're using the Munster dialect
+			elif mír == 'do':
+				if is_guta(céad_litir) or (céad_litir=='f' and s=='h'):
+					réimnír = "d'"
+					mír = ''
+				else:
+					mír = c_mumhan and 'do' or ''
 
 			# is our stem slender or broad?
 			caol = is_caol(fréamh)
@@ -226,7 +231,7 @@ class Leagan():
 				bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(foirm)
 			f = bf and f" {forainm}" or ""
 			
-			aschur.append(f"{m}{u}{céad_litir}{s}{litreacha_eile}{d}{f}")
+			aschur.append(f"{mír}{mír and ' ' or ''}{réimnír}{céad_litir}{s}{litreacha_eile}{d}{f}")
 		return aschur
 
 # Person
@@ -387,7 +392,7 @@ céad_réimniú.m_fosh.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]i
 
 
 céad_réimniú.m_ord.deireadh_scartha = "(e)adh"
-céad_réimniú.m_ord.diúltach = Leagan(mír='ná', h_réimír=True)
+céad_réimniú.m_ord.diúltach = Leagan(mír='ná')
 céad_réimniú.m_ord.ceisteach = None
 céad_réimniú.m_ord.céad_phearsa.uatha = Leagan(deireadh_tháite="[a]im")
 céad_réimniú.m_ord.dara_pearsa.uatha  = Leagan(foirm=Foirm.infinideach, forainmnigh=False)
