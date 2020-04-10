@@ -100,7 +100,7 @@ def is_guta (litir:str)->bool:
 # does this string end in a slender vowel?
 def is_caol(focal:str)->bool:
 	guta = guta_deireanach(focal)
-	if guta: return guta_deireanach(focal) in "eéií"
+	if guta: return guta in "eéií"
 
 # what is the last vowel in this string?
 def guta_deireanach(focal:str)->str:
