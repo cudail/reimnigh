@@ -167,8 +167,8 @@ class Leagan():
 
 
 			# from stems for verbs ending in -igh, il, ir, in and is
-			if len(briathar) > 2 and briathar[-3:] == 'igh':
-				fréamh = sub(r"^((?:.+[^a])|.)a?igh$", r"\1", briathar)
+			if len(briathar) > 2 and briathar[-3:] in ['igh', 'ígh']:
+				fréamh = sub(r"^((?:.+[^a])|.)a?[ií]gh$", r"\1", briathar)
 			elif comhair_siollaí(briathar) > 1:
 				fréamh = sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 			else:
@@ -208,7 +208,7 @@ class Leagan():
 			if briathar[-3:] == 'áil' and litreacha_eile[-2:] == 'ál' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif briathar[-4:] == 'óigh' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+			elif briathar[-4:] in ['óigh', 'úigh', 'áigh'] and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
@@ -522,7 +522,7 @@ céad_réimniú_igh.a_gchaite.deireadh_scartha = "íodh"
 céad_réimniú_igh.a_gchaite.céad_phearsa.uatha = Leagan(deireadh_tháite="ínn")
 céad_réimniú_igh.a_gchaite.dara_pearsa.uatha  = Leagan(deireadh_tháite="iteá")
 céad_réimniú_igh.a_gchaite.céad_phearsa.iorla = Leagan(deireadh_tháite="ímis")
-céad_réimniú_igh.a_gchaite.tríú_pearsa.iorla  = Leagan(deireadh_tháite="íodh")
+céad_réimniú_igh.a_gchaite.tríú_pearsa.iorla  = Leagan(deireadh_tháite="ídís")
 céad_réimniú_igh.a_gchaite.briathar_saor      = Leagan(deireadh_tháite="ití")
 
 céad_réimniú_igh.a_gchaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="íthá")
@@ -594,7 +594,7 @@ def cén_réimniú(briathar:str)->Réimniú:
 		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in', 'is']:
 			if briathar[-3:] not in ['áil', 'áin', 'óil']:
 				return dara_réimniú
-	if briathar[-3:] == 'igh' and briathar[-4:] not in ['éigh', 'óigh']:
+	if briathar[-3:] in ['igh', 'ígh'] and briathar[-4:] not in ['éigh', 'óigh', 'úigh', 'áigh']:
 		return céad_réimniú_igh
 	return céad_réimniú
 
