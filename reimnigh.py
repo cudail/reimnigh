@@ -208,7 +208,7 @@ class Leagan():
 			if briathar[-3:] == 'áil' and litreacha_eile[-2:] == 'ál' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif briathar[-4:] in ['óigh', 'úigh', 'áigh'] and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+			elif (briathar[-4:] in ['óigh', 'úigh', 'áigh'] or briathar[-5:] in ['eoigh', 'uaigh']) and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
@@ -226,7 +226,7 @@ class Leagan():
 			if deireadh and fréamh and cuir_fada(fréamh[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
 				deireadh = deireadh[1:]
 			# if stem ends in ó or ú and ending ends in a, remove the a
-			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó','ú'] and deireadh[0] == 'a':
+			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó','ú','o'] and deireadh[0] == 'a':
 				deireadh = deireadh[1:]
 			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0]=='t' or deireadh[0]=='f') and fréamh[-1] == 'é':
 				deireadh = f"i{deireadh}"
@@ -594,7 +594,7 @@ def cén_réimniú(briathar:str)->Réimniú:
 		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in', 'is']:
 			if briathar[-3:] not in ['áil', 'áin', 'óil']:
 				return dara_réimniú
-	if briathar[-3:] in ['igh', 'ígh'] and briathar[-4:] not in ['éigh', 'óigh', 'úigh', 'áigh']:
+	if briathar[-3:] in ['igh', 'ígh'] and briathar[-4:] not in ['éigh', 'óigh', 'úigh', 'áigh'] and briathar[-5:] not in ['eoigh', 'uaigh']:
 		return céad_réimniú_igh
 	return céad_réimniú
 
