@@ -208,6 +208,9 @@ class Leagan():
 			if briathar[-3:] == 'áil' and litreacha_eile[-2:] == 'ál' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
+			elif briathar[-4:] == 'óigh' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+				caol = True
+				litreacha_eile = litreacha_eile + 'i'
 
 			if caol == None: caol = is_caol(briathar)
 
