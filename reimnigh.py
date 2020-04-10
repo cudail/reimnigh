@@ -210,20 +210,24 @@ class Leagan():
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
 
 			if caol == None: caol = is_caol(briathar)
-			if foirm == Foirm.táite:
-				d = leath_nó_caolaigh(leagan.deireadh_tháite, caol) # form the analytic ending
-			elif foirm == Foirm.scartha:
-				d = leath_nó_caolaigh(deireadh_scartha, caol) # form the synthetic ending
-			else:
-				d = ""
 
-			if d and litreacha_eile and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(d[0]).casefold():
-				d = d[1:] # remove double vowels if the stem ends with the same letter the ending starts with
-			if litreacha_eile and litreacha_eile[-1] == 'ó' and d[0] == 'a':
-				d = d[1:] # if stem ends in ó and ending ends in a, remove the a
-			if comhair_siollaí(briathar) == 1 and d and (d[0]=='t' or d[0]=='f') and fréamh[-1] == 'é':
-				d = f"i{d}"
-			d = aibhsigh(d)
+			# form the ending
+			if foirm == Foirm.táite:
+				deireadh = leath_nó_caolaigh(leagan.deireadh_tháite, caol) # form the analytic ending
+			elif foirm == Foirm.scartha:
+				deireadh = leath_nó_caolaigh(deireadh_scartha, caol) # form the synthetic ending
+			else:
+				deireadh = ''
+
+			# remove double vowels if the stem ends with the same letter the ending starts with
+			if deireadh and litreacha_eile and cuir_fada(litreacha_eile[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
+				deireadh = deireadh[1:]
+			# if stem ends in ó or ú and ending ends in a, remove the a
+			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó','ú'] and deireadh[0] == 'a':
+				deireadh = deireadh[1:]
+			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0]=='t' or deireadh[0]=='f') and fréamh[-1] == 'é':
+				deireadh = f"i{deireadh}"
+			deireadh = aibhsigh(deireadh)
 
 			bf = forainmnigh
 			if bf == None:
@@ -231,7 +235,7 @@ class Leagan():
 				bf = {Foirm.scartha:True, Foirm.táite:False, Foirm.infinideach:True}.get(foirm)
 			f = bf and f" {forainm}" or ""
 			
-			aschur.append(f"{mír}{mír and ' ' or ''}{réimnír}{céad_litir}{s}{litreacha_eile}{d}{f}")
+			aschur.append(f"{mír}{mír and ' ' or ''}{réimnír}{céad_litir}{s}{litreacha_eile}{deireadh}{f}")
 		return aschur
 
 # Person
