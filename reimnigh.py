@@ -3,16 +3,13 @@
 # © 2020 Caoimhe Ní Chaoimh
 # CC BY-NC-SA 4.0
 
-import argparse
-import copy
-import re
-import sys
-import textwrap
-from argparse import RawTextHelpFormatter
+from argparse import RawTextHelpFormatter, ArgumentParser
+from copy import deepcopy
 from enum import Enum, auto
+from re import sub, findall
 from typing import List
 
-parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
+parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
 parser.add_argument('briathar', type=str)
 
 parser.add_argument('-c', help='taispeántar an aimsir chaite', action='store_true')
@@ -75,7 +72,7 @@ neamhfolínithe = '\033[24m'
 gutaí = "aouieáóúíé"
 
 def comhair_siollaí(focal:str)->int:
-	return len(re.findall(f"[{gutaí}]+[^{gutaí}]+", focal))
+	return len(findall(f"[{gutaí}]+[^{gutaí}]+", focal))
 
 def uraigh(litir:str)->str:
 	return {'b':'m', 'c':'g', 'd':'n', 'f':'bh', 'g':'n', 'p':'b', 't':'d'}.get(litir)
@@ -99,9 +96,9 @@ def guta_deireanach(focal:str)->str:
 
 def leath_nó_caolaigh(deireadh:str, caol:bool)->str:
 	if caol:
-		return re.sub(r"\[\w+\]|[\(\)]", "", deireadh)
+		return sub(r"\[\w+\]|[\(\)]", "", deireadh)
 	else:
-		return re.sub(r"\(\w+\)|[\[\]]", "", deireadh)
+		return sub(r"\(\w+\)|[\[\]]", "", deireadh)
 
 
 class Foirm(Enum):
@@ -136,9 +133,9 @@ class Leagan():
 			forainmnigh = leagan.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or leagan.forainmnigh
 
 			if len(briathar) > 2 and briathar[-3:] == 'igh':
-				fréamh = re.sub(r"^((?:.+[^a])|.)a?igh$", r"\1", briathar)
+				fréamh = sub(r"^((?:.+[^a])|.)a?igh$", r"\1", briathar)
 			elif comhair_siollaí(briathar) > 1:
-				fréamh = re.sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
+				fréamh = sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 			else:
 				fréamh = briathar
 
@@ -367,7 +364,7 @@ céad_réimniú.m_coinn.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="f[
 
 
 
-dara_réimniú = copy.deepcopy(céad_réimniú)
+dara_réimniú = deepcopy(céad_réimniú)
 
 dara_réimniú.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]íomar")
 dara_réimniú.a_chaite.briathar_saor      = Leagan(mír='', séimhiú=False, deireadh_tháite="[a]íodh")
@@ -446,7 +443,7 @@ dara_réimniú.m_coinn.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[ó
 
 
 
-céad_réimniú_igh = copy.deepcopy(céad_réimniú)
+céad_réimniú_igh = deepcopy(céad_réimniú)
 
 céad_réimniú_igh.a_chaite.céad_phearsa.iorla = Leagan(mír='do', séimhiú=True, deireadh_tháite="íomar")
 céad_réimniú_igh.a_chaite.briathar_saor = Leagan(mír='do', séimhiú=True, deireadh_tháite="íodh")
