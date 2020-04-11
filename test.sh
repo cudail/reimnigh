@@ -57,4 +57,13 @@ test "inis -0Fd" "go n-insítear"
 test "tionóil -3ifC" "an dtionólfaidh siad"
 test "cogain -2igD" "ní chognaíodh sibh"
 
+
+test "glan -2iFdm" "go nglanaidh sibh"
+test "glan -3iFdm" "go nglanaid siad"
+test "glan -0gdm" "do glantí"
+test "glan -0Odm" "do glanfí"
+test "glan -0cdm" "do glanadh"
+test "glan -3ifdm" "glanfaid siad"
+test "glan -3ildm" "glanaid siad"
+
 echo "All $i tests passed"

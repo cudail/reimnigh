@@ -230,11 +230,14 @@ class Leagan():
 				deireadh = deireadh[1:]
 			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0]=='t' or deireadh[0]=='f') and fréamh[-1] == 'é':
 				deireadh = f"i{deireadh}"
+			# analytic 3rd person plural Munster forms that would normally end in an lenited d end in an unlenited d instead 
+			if c_mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh[-3:] == 'idh':
+				deireadh = deireadh[:-1]
 			deireadh = aibhsigh(deireadh)
 
 			# if we didn't specify if pronouns should be shown or not
 			# then show them unless we're using a synthetic form
-			if forainmnigh == False or foirm == Foirm.táite:
+			if forainmnigh == False or forainmnigh == None and foirm == Foirm.táite:
 				forainm = ''
 
 			focal = f"{réimnír}{céad_litir}{s}{litreacha_eile}{deireadh}"
@@ -337,6 +340,7 @@ céad_réimniú.a_chaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a
 céad_réimniú.a_chaite.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="(e)amair")
 céad_réimniú.a_chaite.dara_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="(e)abhair")
 céad_réimniú.a_chaite.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="(e)adar")
+céad_réimniú.a_chaite.briathar_saor.mumhan      = Leagan(séimhiú=False, deireadh_tháite="(e)adh")
 
 
 céad_réimniú.a_gchaite.deireadh_scartha = "(e)adh"
@@ -351,6 +355,7 @@ céad_réimniú.a_gchaite.briathar_saor      = Leagan(deireadh_tháite="t[a]í")
 
 céad_réimniú.a_gchaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="th(e)á")
 céad_réimniú.a_gchaite.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[a]imís")
+céad_réimniú.a_gchaite.briathar_saor.mumhan      = Leagan(séimhiú=False, deireadh_tháite="tí")
 
 
 céad_réimniú.a_láith.deireadh_scartha = "(e)ann"
@@ -379,7 +384,6 @@ céad_réimniú.a_fháist.briathar_saor      = Leagan(deireadh_tháite="f(e)ar")
 céad_réimniú.a_fháist.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="f(e)ad")
 céad_réimniú.a_fháist.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="f[a]ir")
 céad_réimniú.a_fháist.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="f[a]imíd")
-céad_réimniú.a_fháist.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="f[a]id", forainmnigh=True)
 
 
 céad_réimniú.m_fosh.deireadh_scartha = "[a](e)"
@@ -394,6 +398,7 @@ céad_réimniú.m_fosh.dara_pearsa.iorla  = Leagan(foirm=Foirm.scartha)
 céad_réimniú.m_fosh.tríú_pearsa.iorla  = Leagan(foirm=Foirm.scartha)
 céad_réimniú.m_fosh.briathar_saor      = Leagan(deireadh_tháite="t(e)ar")
 
+céad_réimniú.m_fosh.deireadh_scartha_mumhan = "(e)aidh"
 céad_réimniú.m_fosh.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="(e)ad")
 céad_réimniú.m_fosh.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]ir")
 
@@ -424,6 +429,7 @@ céad_réimniú.m_coinn.tríú_pearsa.iorla  = Leagan(deireadh_tháite="f[a]idí
 céad_réimniú.m_coinn.briathar_saor      = Leagan(deireadh_tháite="f[a]í")
 
 céad_réimniú.m_coinn.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="f[a]imís")
+céad_réimniú.m_coinn.briathar_saor.mumhan      = Leagan(séimhiú=False, deireadh_tháite="fí")
 
 
 # second conjugation
