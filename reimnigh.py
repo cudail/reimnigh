@@ -120,15 +120,18 @@ def leath_nó_caolaigh(deireadh:str, caol:bool)->str:
 # highlight string if ANSI highlights are enabled
 def aibhsigh(teaghrán:str) ->str:
 	if r_aibhsigh and teaghrán:
-		return f"\033[01m{teaghrán}\033[21m"
+		return f"[01m{teaghrán}[21m"
 	return teaghrán
 
 # underline string if ANSI highlights are enabled
 def folínigh(teaghrán:str) ->str:
 	if r_aibhsigh and teaghrán:
-		return f"\033[04m{teaghrán}\033[24m"
+		return f"[04m{teaghrán}[24m"
 	return teaghrán
 
+#remove ASCI escape sequences
+def neamhaibhsigh(teaghrán:str)->str:
+	return sub(r"\[\d\dm", "", teaghrán)
 
 # analytic, synthetic or infinitive form
 class Foirm(Enum):
@@ -610,8 +613,9 @@ def priontáil_toradh(toradh:List):
 	for aimsir in toradh:
 		for ró in aimsir['pearsana']:
 			for i, cill in enumerate(ró):
-				if leithid_colún.get(i) == None or len(cill) > leithid_colún.get(i):
-					leithid_colún[i] = len(cill)
+				fad = len(neamhaibhsigh(cill))
+				if leithid_colún.get(i) == None or fad > leithid_colún.get(i):
+					leithid_colún[i] = fad
 	for aimsir in toradh:
 		#if more than one tense was specified, print the name of each tense
 		if len(toradh) > 1:
@@ -619,7 +623,7 @@ def priontáil_toradh(toradh:List):
 		for ró in aimsir['pearsana']:
 			líne=""
 			for i, cill in enumerate(ró):
-				líne += cill + " " * (leithid_colún[i] - len(cill) + 4)
+				líne += cill + " " * (leithid_colún[i] - len(neamhaibhsigh(cill)) + 4)
 			print(líne)
 		#print an empty line between each tense
 		if aimsir != toradh[-1]:
