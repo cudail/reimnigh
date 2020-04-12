@@ -334,7 +334,7 @@ céad_réimniú.a_chaite.tríú_pearsa.uatha  = Leagan(foirm=Foirm.infinideach)
 céad_réimniú.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="(e)amar")
 céad_réimniú.a_chaite.dara_pearsa.iorla  = Leagan(foirm=Foirm.infinideach)
 céad_réimniú.a_chaite.tríú_pearsa.iorla  = Leagan(foirm=Foirm.infinideach)
-céad_réimniú.a_chaite.briathar_saor      = Leagan(mír='', séimhiú=False, deireadh_tháite="(e)adh")
+céad_réimniú.a_chaite.briathar_saor      = Leagan(séimhiú=False, deireadh_tháite="(e)adh")
 
 céad_réimniú.a_chaite.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="(e)as")
 céad_réimniú.a_chaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]is")
@@ -437,7 +437,7 @@ céad_réimniú.m_coinn.briathar_saor.mumhan      = Leagan(séimhiú=False, deir
 dara_réimniú = deepcopy(céad_réimniú)
 
 dara_réimniú.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]íomar")
-dara_réimniú.a_chaite.briathar_saor      = Leagan(mír='', séimhiú=False, deireadh_tháite="[a]íodh")
+dara_réimniú.a_chaite.briathar_saor      = Leagan(séimhiú=False, deireadh_tháite="[a]íodh")
 
 dara_réimniú.a_chaite.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="[a]íos")
 dara_réimniú.a_chaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]ís")
@@ -463,6 +463,7 @@ dara_réimniú.a_láith.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]ímid"
 dara_réimniú.a_láith.briathar_saor      = Leagan(deireadh_tháite="[a]ítear")
 dara_réimniú.a_láith.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]ímid")
 
+dara_réimniú.a_láith.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[a]ír")
 dara_réimniú.a_láith.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[a]ímíd")
 dara_réimniú.a_láith.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="[a]íd", forainmnigh=True)
 dara_réimniú.a_láith.briathar_saor.mumhan      = Leagan(deireadh_tháite="[a]íthear")
@@ -475,7 +476,6 @@ dara_réimniú.a_fháist.briathar_saor      = Leagan(deireadh_tháite="[ó](eo)f
 dara_réimniú.a_fháist.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="[ó](eo)d")
 dara_réimniú.a_fháist.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[ó](eo)ir")
 dara_réimniú.a_fháist.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[ó](eo)imíd")
-dara_réimniú.a_fháist.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[ó](eo)id", forainmnigh=True)
 
 
 dara_réimniú.m_fosh.deireadh_scartha = "[a]í"
