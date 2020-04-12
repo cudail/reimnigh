@@ -308,9 +308,7 @@ class Réimniú():
 			if (gach_pearsana or dara_pearsa) and (uathar_agus_uathar or uathar):
 				pearsana.append(aimsir.dara_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, "tú"))
 			if (gach_pearsana or tríú_pearsa) and (uathar_agus_uathar or uathar):
-				pearsana.append(aimsir.tríú_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, "sí"))
-			if (gach_pearsana or tríú_pearsa) and (uathar_agus_uathar or uathar):
-				pearsana.append(aimsir.tríú_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, "sé"))
+				pearsana.append(aimsir.tríú_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, "sí/sé"))
 			if (gach_pearsana or céad_phearsa) and (uathar_agus_uathar or iolra):
 				pearsana.append(aimsir.céad_phearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, "sinn"))
 			if (gach_pearsana or dara_pearsa) and (uathar_agus_uathar or iolra):
