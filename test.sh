@@ -56,6 +56,7 @@ test "imir -1igd" "d'imrímis"
 test "inis -0Fd" "go n-insítear"
 test "tionóil -3ifC" "an dtionólfaidh siad"
 test "cogain -2igD" "ní chognaíodh sibh"
+test "ceiliúir -1icd" "cheiliúramar"
 
 
 test "glan -2iFdm" "go nglanaidh sibh"
