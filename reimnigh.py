@@ -8,91 +8,108 @@ from enum import Enum, auto
 from re import sub, findall
 from typing import List
 
-
 # vowels
 gutaí = "aouieáóúíé"
 
+
 # count the number of syllables in a word by counting clusters of vowels
-def comhair_siollaí(focal:str)->int:
+def comhair_siollaí(focal: str) -> int:
 	return len(findall(f"[{gutaí}]+[^{gutaí}]+", focal))
 
+
 # eclipsis
-def uraigh(litir:str)->str:
-	return {'b':'m', 'c':'g', 'd':'n', 'f':'bh', 'g':'n', 'p':'b', 't':'d'}.get(litir)
+def uraigh(litir: str) -> str:
+	return {'b': 'm', 'c': 'g', 'd': 'n', 'f': 'bh', 'g': 'n', 'p': 'b', 't': 'd'}.get(litir)
+
 
 # strip fada from vowels
-def cuir_fada(litir:str)->str:
-	return {'á':'a', 'ó':'o', 'ú':'u', 'í':'i', 'é':'e'}.get(litir) or litir
+def cuir_fada(litir: str) -> str:
+	return {'á': 'a', 'ó': 'o', 'ú': 'u', 'í': 'i', 'é': 'e'}.get(litir) or litir
+
 
 # is this letter leniteable?
-def is_inséimhithe(litir:str)->bool:
-	return litir in ['b','c','d','f','g','m','p','s','t']
+def is_inséimhithe(litir: str) -> bool:
+	return litir in ['b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't']
+
 
 # is this a vowel?
-def is_guta (litir:str)->bool:
+def is_guta(litir: str) -> bool:
 	return litir.casefold() in gutaí
 
+
 # does this string end in a slender vowel?
-def is_caol(focal:str)->bool:
+def is_caol(focal: str) -> bool:
 	guta = guta_deireanach(focal)
-	if guta: return guta in "eéií"
+	if guta:
+		return guta in "eéií"
+
 
 # what is the last vowel in this string?
-def guta_deireanach(focal:str)->str:
-	gutaí = [litir for litir in focal if is_guta(litir) ]
-	if gutaí: return gutaí[-1]
+def guta_deireanach(focal: str) -> str:
+	gutaí_amháin = [litir for litir in focal if is_guta(litir)]
+	if gutaí_amháin:
+		return gutaí_amháin[-1]
+
 
 # get slender or broad form of given ending
 # slender form -> remove letters encased in []
 # broad formn -> remove letters encased in ()
-def leath_nó_caolaigh(deireadh:str, caol:bool)->str:
+def leath_nó_caolaigh(deireadh: str, caol: bool) -> str:
 	if caol:
-		return sub(r"\[\w+\]|[\(\)]", "", deireadh)
+		return sub(r"\[\w+\]|[()]", "", deireadh)
 	else:
 		return sub(r"\(\w+\)|[\[\]]", "", deireadh)
 
 
 # highlight string if ANSI highlights are enabled
-def aibhsigh(teaghrán:str) ->str:
+def aibhsigh(teaghrán: str) -> str:
 	return f"[01m{teaghrán}[21m"
 
+
 # underline string if ANSI highlights are enabled
-def folínigh(teaghrán:str) ->str:
+def folínigh(teaghrán: str) -> str:
 	return f"[04m{teaghrán}[24m"
 
-#remove ASCI escape sequences
-def neamhaibhsigh(teaghrán:str)->str:
+
+# remove ASCI escape sequences
+def neamhaibhsigh(teaghrán: str) -> str:
 	return sub(r"\[\d\dm", "", teaghrán)
+
 
 # analytic, synthetic or infinitive form
 class Foirm(Enum):
-	scartha=auto()
-	táite=auto()
-	infinideach=auto()
+	scartha = auto()
+	táite = auto()
+	infinideach = auto()
+
 
 # options for tenses
 class FoghaAimsire(Enum):
 	def __init__(self, ainm):
 		self.ainm = ainm
-	chaite=("an aimsir chaite")
-	ghnáthchaite=("an aimsir ghnáthchaite")
-	láithreach=("an aimsir láithreach")
-	fháistineach=("an aimsir fháistineach")
-	foshuiteach=("an modh foshuiteach")
-	ordaitheach=("an modh ordaitheach")
-	coinníollach=("an modh coinníollach")
+
+	chaite = "an aimsir chaite"
+	ghnáthchaite = "an aimsir ghnáthchaite"
+	láithreach = "an aimsir láithreach"
+	fháistineach = "an aimsir fháistineach"
+	foshuiteach = "an modh foshuiteach"
+	ordaitheach = "an modh ordaitheach"
+	coinníollach = "an modh coinníollach"
+
 
 # options for persons
 class FoghaPearsan(Enum):
 	def __init__(self, forainm):
-		self.forainm = forainm #pronoun
-	céad_uatha=("mé")
-	dara_uatha=("tú")
-	tríú_uatha=("sí/sé")
-	céad_iorla=("sinn")
-	dara_iorla=("sibh")
-	tríú_iorla=("siad")
-	briathar_saor=(None)
+		self.forainm = forainm  # pronoun
+
+	céad_uatha = "mé"
+	dara_uatha = "tú"
+	tríú_uatha = "sí/sé"
+	céad_iorla = "sinn"
+	dara_iorla = "sibh"
+	tríú_iorla = "siad"
+	briathar_saor = None
+
 
 # options for affirmative, negative and interrogative moods
 class FoghaFoirme(Enum):
@@ -101,37 +118,34 @@ class FoghaFoirme(Enum):
 	cheisteach = auto()
 
 
-
-
 # Defines a specific form of a verb with various rules
 # e.g. the first person singular affirmative form for a first conjugation verb 
 #      is a synthetic form with an ending "aim" or "im"
 #      -> foirm=Foirm.táite, deireadh_tháite="[a]im" 
-class Leagan():
+class Leagan:
 	def __init__(self, *, mír:str=None, urú:bool=None, séimhiú:bool=None,
 	             forainmnigh:bool=None, foirm:Foirm=None, deireadh_tháite:str=None):
-		self.mír=mír
-		self.urú=urú
-		self.séimhiú=séimhiú
-		self.foirm=foirm
-		self.deireadh_tháite=deireadh_tháite
-		self.forainmnigh=forainmnigh
+		self.mír = mír
+		self.urú = urú
+		self.séimhiú = séimhiú
+		self.foirm = foirm
+		self.deireadh_tháite = deireadh_tháite
+		self.forainmnigh = forainmnigh
 		self.mumhan = None
-	
+
 	# conjugate
 	def réimnigh(self, briathar, deireadh_scartha, leaganacha, forainm, mumhan, aibhsiú):
-		aschur = [] #output stored in list
-		leagan = (mumhan and self.mumhan) and self.mumhan or self  #check if we're using the Munster form
+		aschur = []  # output stored in list
+		leagan = (mumhan and self.mumhan) and self.mumhan or self  # check if we're using the Munster form
 
 		for bunleagan in leaganacha:
 			# Build rules from hierarchy. If this object has a rule specified itself, use that
 			# otherwise check if the base form for this tense has it defined
-			foirm = leagan.foirm or bunleagan and bunleagan.forainmnigh or Foirm.táite # synthetic form if not specified otherwise
-			mír = leagan.mír == None and ( bunleagan == None or None or bunleagan.mír ) or leagan.mír
-			urú = leagan.urú == None and ( bunleagan == None or None or bunleagan.urú ) or leagan.urú
-			séimhiú = leagan.séimhiú == None and ( bunleagan == None or None or bunleagan.séimhiú ) or leagan.séimhiú
-			forainmnigh = leagan.forainmnigh == None and ( bunleagan == None or None or bunleagan.forainmnigh ) or leagan.forainmnigh
-
+			foirm = leagan.foirm or bunleagan and bunleagan.forainmnigh or Foirm.táite  # synthetic form if not specified otherwise
+			mír = leagan.mír is None and (bunleagan is None or None or bunleagan.mír) or leagan.mír
+			urú = leagan.urú is None and (bunleagan is None or None or bunleagan.urú) or leagan.urú
+			séimhiú = leagan.séimhiú is None and (bunleagan is None or None or bunleagan.séimhiú) or leagan.séimhiú
+			forainmnigh = leagan.forainmnigh is None and (bunleagan is None or None or bunleagan.forainmnigh) or leagan.forainmnigh
 
 			# from stems for verbs ending in -igh, il, ir, in and is
 			if len(briathar) > 2 and briathar[-3:] in ['igh', 'ígh']:
@@ -141,16 +155,16 @@ class Leagan():
 			else:
 				fréamh = briathar
 
-			céad_litir = briathar[0] #first letter
-			litreacha_eile = (foirm==Foirm.infinideach) and briathar[1:] or fréamh[1:] #rest of the word
+			céad_litir = briathar[0]  # first letter
+			litreacha_eile = (foirm == Foirm.infinideach) and briathar[1:] or fréamh[1:]  # rest of the word
 
 			# do we have lenition?
 			s = séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
-			
+
 			# prefix
 			réimnír = urú and uraigh(céad_litir) or ''
 
-			if mír == None:
+			if mír is None:
 				mír = ''
 			# particles can cause mutations
 			# 'go' causes vowels to take an n- prefix
@@ -161,10 +175,10 @@ class Leagan():
 				réimnír = 'h'
 			# 'do' is supressed unless the verb starts with a vowel or we're using the Munster dialect
 			elif mír == 'do':
-				if is_guta(céad_litir) or (céad_litir=='f' and s=='h'):
+				if is_guta(céad_litir) or (céad_litir == 'f' and s == 'h'):
 					réimnír = "d'"
 					# hack to supress d' prefix for past tense autonomous form
-					if forainm == None and leagan.deireadh_tháite.endswith("dh"):
+					if forainm is None and leagan.deireadh_tháite.endswith("dh"):
 						réimnír = ''
 					mír = ''
 				else:
@@ -182,13 +196,13 @@ class Leagan():
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
-			if caol == None: caol = is_caol(briathar)
+			if caol is None: caol = is_caol(briathar)
 
 			# form the ending
 			if foirm == Foirm.táite:
-				deireadh = leath_nó_caolaigh(leagan.deireadh_tháite, caol) # form the analytic ending
+				deireadh = leath_nó_caolaigh(leagan.deireadh_tháite, caol)  # form the analytic ending
 			elif foirm == Foirm.scartha:
-				deireadh = leath_nó_caolaigh(deireadh_scartha, caol) # form the synthetic ending
+				deireadh = leath_nó_caolaigh(deireadh_scartha, caol)  # form the synthetic ending
 			else:
 				deireadh = ''
 
@@ -196,9 +210,9 @@ class Leagan():
 			if deireadh and fréamh and cuir_fada(fréamh[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
 				deireadh = deireadh[1:]
 			# if stem ends in ó or ú and ending ends in a, remove the a
-			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó','ú','o'] and deireadh[0] == 'a':
+			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó', 'ú', 'o'] and deireadh[0] == 'a':
 				deireadh = deireadh[1:]
-			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0]=='t' or deireadh[0]=='f') and fréamh[-1] == 'é':
+			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0] == 't' or deireadh[0] == 'f') and fréamh[-1] == 'é':
 				deireadh = f"i{deireadh}"
 			# analytic 3rd person plural Munster forms that would normally end in an lenited d end in an unlenited d instead 
 			if mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh[-3:] == 'idh':
@@ -206,26 +220,28 @@ class Leagan():
 
 			# if we didn't specify if pronouns should be shown or not
 			# then show them unless we're using a synthetic form
-			if forainmnigh == False or forainmnigh == None and foirm == Foirm.táite:
+			if forainmnigh is False or forainmnigh is None and foirm == Foirm.táite:
 				forainm = ''
 
 			if aibhsiú:
 				focal = f"{aibhsigh(réimnír)}{céad_litir}{aibhsigh(s)}{litreacha_eile}{aibhsigh(deireadh)}"
-				aschur.append(f"{mír and (mír+' ') or ''}{focal}{forainm and ' '+aibhsigh(forainm) or ''}")
+				aschur.append(f"{mír and mír + ' ' or ''}{focal}{forainm and ' ' + aibhsigh(forainm) or ''}")
 			else:
 				focal = f"{réimnír}{céad_litir}{s}{litreacha_eile}{deireadh}"
-				aschur.append(f"{mír}{mír and ' ' or ''}{focal}{forainm and ' ' or ''}{forainm}")
+				aschur.append(f"{mír and mír + ' ' or ''}{focal}{forainm and ' ' + forainm or ''}")
 		return aschur
 
+
 # Person
-class Pearsa():
+class Pearsa:
 	def __init__(self):
 		self.uatha = None
 		self.iorla = None
 
+
 # Tense
-class Aimsir():
-	def __init__(self, ainm:str):
+class Aimsir:
+	def __init__(self, ainm: str):
 		self.ainm = ainm
 		self.céad_phearsa = Pearsa()
 		self.dara_pearsa = Pearsa()
@@ -233,30 +249,31 @@ class Aimsir():
 		self.deireadh_scartha = ""
 		self.deireadh_scartha_mumhan = None
 		self.briathar_saor = None
-		self.dearfach  = Leagan()
-		self.diúltach  = Leagan(mír='ní', séimhiú=True)
+		self.dearfach = Leagan()
+		self.diúltach = Leagan(mír='ní', séimhiú=True)
 		self.ceisteach = Leagan(mír='an', urú=True)
 
+
 # Conjugation
-class Réimniú():
+class Réimniú:
 	def __init__(self):
-		self.a_chaite=Aimsir("an aimsir chaite")
-		self.a_gchaite=Aimsir("an aimsir ghnáthchaite")
-		self.a_láith=Aimsir("an aimsir láithreach")
-		self.a_fháist=Aimsir("an aimsir fháistineach")
-		self.m_fosh=Aimsir("an modh foshuiteach")
-		self.m_ord=Aimsir("an modh ordaitheach")
-		self.m_coinn=Aimsir("an modh coinníollach")
-		self.aimsirí = { FoghaAimsire.chaite :	    self.a_chaite,
-		                 FoghaAimsire.ghnáthchaite: self.a_gchaite,
-		                 FoghaAimsire.láithreach :  self.a_láith,
-		                 FoghaAimsire.fháistineach: self.a_fháist,
-		                 FoghaAimsire.foshuiteach:  self.m_fosh,
-		                 FoghaAimsire.ordaitheach:  self.m_ord,
-		                 FoghaAimsire.coinníollach: self.m_coinn}
+		self.a_chaite = Aimsir("an aimsir chaite")
+		self.a_gchaite = Aimsir("an aimsir ghnáthchaite")
+		self.a_láith = Aimsir("an aimsir láithreach")
+		self.a_fháist = Aimsir("an aimsir fháistineach")
+		self.m_fosh = Aimsir("an modh foshuiteach")
+		self.m_ord = Aimsir("an modh ordaitheach")
+		self.m_coinn = Aimsir("an modh coinníollach")
+		self.aimsirí = {FoghaAimsire.chaite: self.a_chaite,
+		                FoghaAimsire.ghnáthchaite: self.a_gchaite,
+		                FoghaAimsire.láithreach: self.a_láith,
+		                FoghaAimsire.fháistineach: self.a_fháist,
+		                FoghaAimsire.foshuiteach: self.m_fosh,
+		                FoghaAimsire.ordaitheach: self.m_ord,
+		                FoghaAimsire.coinníollach: self.m_coinn}
 
 	# conjugate
-	def réimnigh(self, fréamh:str, foghannaAimsirí:list, foghannaPearsana:list, foghannaFoirmeacha:list, mumhan:bool, aibhsigh:bool):
+	def réimnigh(self, fréamh: str, foghannaAimsirí: list, foghannaPearsana: list, foghannaFoirmeacha: list, mumhan: bool, aibhsigh: bool):
 		aschur = []
 		for a in foghannaAimsirí:
 			aimsir = self.aimsirí.get(a)
@@ -272,7 +289,7 @@ class Réimniú():
 
 			deireadh = (mumhan and aimsir.deireadh_scartha_mumhan) and aimsir.deireadh_scartha_mumhan or aimsir.deireadh_scartha
 			pearsana = []
-			aschur_aimsire = {'ainm':aimsir.ainm, 'pearsana': pearsana}
+			aschur_aimsire = {'ainm': aimsir.ainm, 'pearsana': pearsana}
 			for p in foghannaPearsana:
 				if p == FoghaPearsan.céad_uatha:
 					pearsana.append(aimsir.céad_phearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
@@ -289,7 +306,8 @@ class Réimniú():
 				if p == FoghaPearsan.briathar_saor:
 					pearsana.append(aimsir.briathar_saor.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
 			aschur.append(aschur_aimsire)
-		return aschur	
+		return aschur
+
 
 # define conjugation rules
 def déan_rialacha():
@@ -359,8 +377,8 @@ def déan_rialacha():
 
 
 	céad_réimniú.m_fosh.deireadh_scartha = "[a](e)"
-	céad_réimniú.m_fosh.dearfach = Leagan(mír='go', urú=True)
-	céad_réimniú.m_fosh.diúltach = Leagan(mír='nár', séimhiú=True)
+	céad_réimniú.m_fosh.dearfach  = Leagan(mír='go', urú=True)
+	céad_réimniú.m_fosh.diúltach  = Leagan(mír='nár', séimhiú=True)
 	céad_réimniú.m_fosh.ceisteach = None
 	céad_réimniú.m_fosh.céad_phearsa.uatha = Leagan(foirm=Foirm.scartha)
 	céad_réimniú.m_fosh.dara_pearsa.uatha  = Leagan(foirm=Foirm.scartha)
@@ -376,7 +394,7 @@ def déan_rialacha():
 
 
 	céad_réimniú.m_ord.deireadh_scartha = "(e)adh"
-	céad_réimniú.m_ord.diúltach = Leagan(mír='ná')
+	céad_réimniú.m_ord.diúltach  = Leagan(mír='ná')
 	céad_réimniú.m_ord.ceisteach = None
 	céad_réimniú.m_ord.céad_phearsa.uatha = Leagan(deireadh_tháite="[a]im")
 	céad_réimniú.m_ord.dara_pearsa.uatha  = Leagan(foirm=Foirm.infinideach, forainmnigh=False)
@@ -416,7 +434,6 @@ def déan_rialacha():
 	dara_réimniú.a_chaite.dara_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="[a]íobhair")
 	dara_réimniú.a_chaite.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="[a]íodar")
 
-
 	dara_réimniú.a_gchaite.deireadh_scartha = "[a]íodh"
 	dara_réimniú.a_gchaite.céad_phearsa.uatha = Leagan(deireadh_tháite="[a]ínn")
 	dara_réimniú.a_gchaite.dara_pearsa.uatha  = Leagan(deireadh_tháite="[a]íteá")
@@ -439,7 +456,6 @@ def déan_rialacha():
 	dara_réimniú.a_láith.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="[a]íd", forainmnigh=True)
 	dara_réimniú.a_láith.briathar_saor.mumhan      = Leagan(deireadh_tháite="[a]íthear")
 
-
 	dara_réimniú.a_fháist.deireadh_scartha = "[ó](eo)idh"
 	dara_réimniú.a_fháist.céad_phearsa.iorla = Leagan(deireadh_tháite="[ó](eo)imid")
 	dara_réimniú.a_fháist.briathar_saor      = Leagan(deireadh_tháite="[ó](eo)far")
@@ -447,7 +463,6 @@ def déan_rialacha():
 	dara_réimniú.a_fháist.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="[ó](eo)d")
 	dara_réimniú.a_fháist.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="[ó](eo)ir")
 	dara_réimniú.a_fháist.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[ó](eo)imíd")
-
 
 	dara_réimniú.m_fosh.deireadh_scartha = "[a]í"
 	dara_réimniú.m_fosh.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]ímid")
@@ -459,7 +474,6 @@ def déan_rialacha():
 	dara_réimniú.m_fosh.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="[a]ímíd")
 	dara_réimniú.m_fosh.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="[a]íd", forainmnigh=True)
 	dara_réimniú.m_fosh.briathar_saor.mumhan      = Leagan(deireadh_tháite="[a]íthear")
-
 
 	dara_réimniú.m_ord.deireadh_scartha = "[a]íodh"
 	dara_réimniú.m_ord.céad_phearsa.uatha = Leagan(deireadh_tháite="[a]ím")
@@ -487,7 +501,7 @@ def déan_rialacha():
 	céad_réimniú_igh = deepcopy(céad_réimniú)
 
 	céad_réimniú_igh.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="íomar")
-	céad_réimniú_igh.a_chaite.briathar_saor =      Leagan(deireadh_tháite="íodh")
+	céad_réimniú_igh.a_chaite.briathar_saor      = Leagan(deireadh_tháite="íodh")
 
 	céad_réimniú_igh.a_chaite.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="íos")
 	céad_réimniú_igh.a_chaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="ís")
@@ -503,7 +517,7 @@ def déan_rialacha():
 	céad_réimniú_igh.a_gchaite.tríú_pearsa.iorla  = Leagan(deireadh_tháite="ídís")
 	céad_réimniú_igh.a_gchaite.briathar_saor      = Leagan(deireadh_tháite="ití")
 
-	céad_réimniú_igh.a_gchaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="íthá")
+	céad_réimniú_igh.a_gchaite.dara_pearsa.uatha.mumhan =  Leagan(deireadh_tháite="íthá")
 	céad_réimniú_igh.a_gchaite.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="ímís")
 	céad_réimniú_igh.a_gchaite.tríú_pearsa.iorla.mumhan  = Leagan(deireadh_tháite="ídís")
 	céad_réimniú_igh.a_gchaite.briathar_saor.mumhan      = Leagan(deireadh_tháite="ítí")
@@ -565,11 +579,11 @@ def déan_rialacha():
 	céad_réimniú_igh.m_coinn.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="ífá")
 	céad_réimniú_igh.m_coinn.céad_phearsa.iorla.mumhan = Leagan(deireadh_tháite="ífimís")
 
-	return {1:céad_réimniú, 1.5: céad_réimniú_igh, 2: dara_réimniú}
+	return {1: céad_réimniú, 1.5: céad_réimniú_igh, 2: dara_réimniú}
 
 
 # detect which conjugation a verb is part of
-def cén_réimniú(briathar:str)->Réimniú:
+def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1:
 		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in', 'is']:
 			if briathar[-3:] not in ['áil', 'áin', 'óil', 'úir']:
@@ -578,39 +592,41 @@ def cén_réimniú(briathar:str)->Réimniú:
 		return déan_rialacha().get(1.5)
 	return déan_rialacha().get(1)
 
+
 # print results
-def priontáil_toradh(toradh:List, aibhsiú:bool=False):
-	leithid_colún={}
+def priontáil_toradh(toradh: List, aibhsiú: bool = False):
+	leithid_colún = {}
 	for aimsir in toradh:
 		for ró in aimsir['pearsana']:
 			for i, cill in enumerate(ró):
 				fad = len(neamhaibhsigh(cill))
-				if leithid_colún.get(i) == None or fad > leithid_colún.get(i):
+				if leithid_colún.get(i) is None or fad > leithid_colún.get(i):
 					leithid_colún[i] = fad
 	for aimsir in toradh:
-		#if more than one tense was specified, print the name of each tense
+		# if more than one tense was specified, print the name of each tense
 		if len(toradh) > 1:
 			if aibhsiú:
 				print(f"  {folínigh(aimsir['ainm'])}")
 			else:
 				print(f"  {aimsir['ainm']}")
 		for ró in aimsir['pearsana']:
-			líne=""
+			líne = ""
 			for i, cill in enumerate(ró):
 				líne += cill + " " * (leithid_colún[i] - len(neamhaibhsigh(cill)) + 4)
 			print(líne)
-		#print an empty line between each tense
+		# print an empty line between each tense
 		if aimsir != toradh[-1]:
 			print()
 
-def réimnigh(briathar:str, aimsirí:list=FoghaAimsire, pearsana:list=FoghaPearsan, foirmeacha:list=FoghaFoirme, mumhan:bool=False, aibhsigh:bool=False):
+
+def réimnigh(briathar: str, aimsirí: list = FoghaAimsire, pearsana: list = FoghaPearsan, foirmeacha: list = FoghaFoirme, mumhan: bool = False, aibhsigh: bool = False):
 	return cén_réimniú(briathar).réimnigh(briathar, aimsirí, pearsana, foirmeacha, mumhan, aibhsigh)
 
 
-if __name__=='__main__':
-	from argparse import RawTextHelpFormatter, ArgumentParser
+if __name__ == '__main__':
+	from argparse import ArgumentParser
 
-	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+	parser = ArgumentParser()
 	parser.add_argument('briathar', type=str)
 
 	parser.add_argument('-c', help='taispeántar an aimsir chaite', action='store_true')
@@ -642,7 +658,6 @@ if __name__=='__main__':
 	foirmeacha = []
 	pearsana = []
 
-
 	# what tenses are we conjugating?
 	if args.c:
 		aimsirí.append(FoghaAimsire.chaite)
@@ -673,8 +688,7 @@ if __name__=='__main__':
 	if not foirmeacha:
 		foirmeacha = [FoghaFoirme.dhearfach, FoghaFoirme.dhiúltach, FoghaFoirme.cheisteach]
 
-
-	#what persons are we using?
+	# what persons are we using?
 	briathar_saor = getattr(args, '0')
 	céad_phearsa = getattr(args, '1')
 	dara_pearsa = getattr(args, '2')
@@ -701,7 +715,7 @@ if __name__=='__main__':
 		pearsana.append(FoghaPearsan.dara_iorla)
 	if (gach_pearsana or tríú_pearsa) and (uathar_agus_uathar or iolra):
 		pearsana.append(FoghaPearsan.tríú_iorla)
-	if (gach_pearsana or briathar_saor):
+	if gach_pearsana or briathar_saor:
 		pearsana.append(FoghaPearsan.briathar_saor)
 
 	priontáil_toradh(réimnigh(args.briathar, aimsirí, pearsana, foirmeacha, args.m, args.a), args.a)
