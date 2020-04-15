@@ -163,6 +163,9 @@ class Leagan():
 			elif mír == 'do':
 				if is_guta(céad_litir) or (céad_litir=='f' and s=='h'):
 					réimnír = "d'"
+					# hack to supress d' prefix for past tense autonomous form
+					if forainm == None and leagan.deireadh_tháite.endswith("dh"):
+						réimnír = ''
 					mír = ''
 				else:
 					mír = mumhan and 'do' or ''
