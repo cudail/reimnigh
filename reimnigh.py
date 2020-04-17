@@ -217,6 +217,9 @@ class Leagan:
 				deireadh = deireadh[1:]
 			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0] == 't' or deireadh[0] == 'f') and fréamh[-1] == 'é':
 				deireadh = f"i{deireadh}"
+			# if stem ends in th and ending ends starts with t, cut off th
+			elif deireadh and litreacha_eile and deireadh[0] == 't' and litreacha_eile[-2:] == 'th':
+				litreacha_eile = litreacha_eile[:-2]
 			# analytic 3rd person plural Munster forms that would normally end in an lenited d end in an unlenited d instead 
 			if mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh[-3:] == 'idh':
 				deireadh = deireadh[:-1]
