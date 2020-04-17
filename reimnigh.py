@@ -47,6 +47,13 @@ def is_caol(focal: str) -> bool:
 		return guta in "eéií"
 
 
+# does word end in any string from this list?
+def críochnaigh_le(focal: str, deirí: list) -> bool:
+	for deireadh in deirí:
+		if focal.endswith(deireadh):
+			return True
+	return False
+
 # what is the last vowel in this string?
 def guta_deireanach(focal: str) -> str:
 	gutaí_amháin = [litir for litir in focal if is_guta(litir)]
@@ -151,7 +158,7 @@ class Leagan:
 			forainmnigh = leagan.forainmnigh is None and (bunleagan is None or None or bunleagan.forainmnigh) or leagan.forainmnigh
 
 			# from stems for verbs ending in -igh, il, ir, in and is
-			if len(briathar) > 2 and briathar[-3:] in ['igh', 'ígh']:
+			if críochnaigh_le(briathar, ['igh', 'ígh']):
 				fréamh = sub(r"^((?:.+[^a])|.)a?[ií]gh$", r"\1", briathar)
 			elif comhair_siollaí(briathar) > 1:
 				fréamh = sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
@@ -192,10 +199,10 @@ class Leagan:
 
 			# -áil becomes -ál unless we have an analytic form ending that starts with 't'
 			# in which case it stays as -áil and takes a slender ending
-			if briathar[-3:] == 'áil' and litreacha_eile[-2:] == 'ál' and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+			if briathar.endswith('áil') and litreacha_eile.endswith('ál') and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif (briathar[-4:] in ['óigh', 'úigh', 'áigh'] or briathar[-5:] in ['eoigh', 'uaigh']) and foirm == Foirm.táite and leagan.deireadh_tháite[0] == 't':
+			elif críochnaigh_le(briathar, ['óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
@@ -213,15 +220,15 @@ class Leagan:
 			if deireadh and fréamh and cuir_fada(fréamh[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
 				deireadh = deireadh[1:]
 			# if stem ends in ó or ú and ending ends in a, remove the a
-			elif deireadh and litreacha_eile and litreacha_eile[-1] in ['ó', 'ú', 'o'] and deireadh[0] == 'a':
+			elif deireadh and litreacha_eile and críochnaigh_le(litreacha_eile, ['ó', 'ú', 'o']) and deireadh.startswith('a'):
 				deireadh = deireadh[1:]
-			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh[0] == 't' or deireadh[0] == 'f') and fréamh[-1] == 'é':
+			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é'):
 				deireadh = f"i{deireadh}"
 			# if stem ends in th and ending ends starts with t, cut off th
-			elif deireadh and litreacha_eile and deireadh[0] == 't' and litreacha_eile[-2:] == 'th':
+			elif deireadh and litreacha_eile and deireadh.startswith('t') and litreacha_eile.endswith('th'):
 				litreacha_eile = litreacha_eile[:-2]
 			# analytic 3rd person plural Munster forms that would normally end in an lenited d end in an unlenited d instead 
-			if mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh[-3:] == 'idh':
+			if mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh.endswith('idh'):
 				deireadh = deireadh[:-1]
 
 			# if we didn't specify if pronouns should be shown or not
@@ -590,11 +597,9 @@ def déan_rialacha():
 
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
-	if comhair_siollaí(briathar) > 1:
-		if briathar[-3:] == 'igh' or briathar[-2:] in ['ir', 'il', 'in', 'is']:
-			if briathar[-3:] not in ['áil', 'áin', 'óil', 'úir']:
-				return déan_rialacha().get(2)
-	if briathar[-3:] in ['igh', 'ígh'] and briathar[-4:] not in ['éigh', 'óigh', 'úigh', 'áigh'] and briathar[-5:] not in ['eoigh', 'uaigh']:
+	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is']) and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir']):
+		return déan_rialacha().get(2)
+	elif críochnaigh_le(briathar, ['igh', 'ígh']) and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']):
 		return déan_rialacha().get(1.5)
 	return déan_rialacha().get(1)
 
