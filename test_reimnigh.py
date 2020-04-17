@@ -58,7 +58,7 @@ class ReimnightTests(unittest.TestCase):
 							# There may be multiple entries for a given form, e.g. brisimid/briseann muid
 							# This will only validate against the first one
 							expected = entries[0]['value']
-							self.assertEqual(expected, form, f"{verb}: expected from '{expected}', actual output: '{form}'")
+							self.assertEqual(expected, form, f"{verb}: expected form '{expected}', actual output: '{form}'")
 
 
 if __name__ == '__main__':
