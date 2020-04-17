@@ -28,8 +28,11 @@ def cuir_fada(litir: str) -> str:
 
 
 # is this letter leniteable?
-def is_inséimhithe(litir: str) -> bool:
-	return litir in ['b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't']
+def is_inséimhithe(focal: str) -> bool:
+	if focal[0] == 's':
+		return focal[1] not in ['c', 'f', 'm', 'p', 't']
+	else:
+		return focal[0] in ['b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't']
 
 
 # is this a vowel?
@@ -159,7 +162,7 @@ class Leagan:
 			litreacha_eile = (foirm == Foirm.infinideach) and briathar[1:] or fréamh[1:]  # rest of the word
 
 			# do we have lenition?
-			s = séimhiú and is_inséimhithe(céad_litir) and 'h' or ''
+			s = séimhiú and is_inséimhithe(fréamh) and 'h' or ''
 
 			# prefix
 			réimnír = urú and uraigh(céad_litir) or ''
