@@ -1,11 +1,18 @@
-Python script for conjugating regular verbs in Irish. Just pass in the verb as an argument for the script. Has no understand of irregular verbs, so if you put in "feic" expect to get "d'fheic mé" as the past tense.
+Python script for conjugating regular verbs in Irish. Just pass in the verb as
+an argument for the script. Has no understand of irregular verbs, so if you
+put in "feic" expect to get "d'fheic mé" as the past tense.
+
+The file reimnigh.py works as an entirely standalone script using only Python
+standard libraries. Everything else is just to support tests.
 
 
-## usage:
+### Usage:
 
     reimnigh.py [OPTIONS] [VERB]
 
-By default will show all persons in all tenses in affirmative, negative and interrogative forms. Use options to narrow the output. There is also an option for the Munster dialect.
+By default will show all persons in all tenses in affirmative, negative and
+interrogative forms. Use options to narrow the output. There is also an option
+for the Munster dialect.
 
     -c aimsir chaite / past tense
     -g aimsir ghnáthchaite / imperfect tense
@@ -30,7 +37,7 @@ By default will show all persons in all tenses in affirmative, negative and inte
 
     -a aibhsítear athruithe / highlight mutations (ANSI escape sequences)
 
-## examples:
+### Examples:
 
     $ python reimnigh.py eitil -1ucd
     > d'eitil mé
@@ -51,8 +58,18 @@ By default will show all persons in all tenses in affirmative, negative and inte
     >  an aimsir fháistineach
     >léimfidh sibh    ní léimfidh sibh    an léimfidh sibh
 
+### Tests
+
+The tests in test_reimnigh.py run against the [Irish National Morphology
+Database] which is included as a submodule under `test/BuNaMo`. Data is
+extracted from this as some basic JSON using `test/gramadoir` which is built
+from [my fork of the Gramadán project].
+
+### Licence and attribution
 
 - Writen by Caoimhe Ní Chaoimh, © 2020
 - License: [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International][CC BY-NC-SA 4.0]
 
 [CC BY-NC-SA 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[my fork of the Gramadán project]: https://github.com/oakreef/Gramadan
+[Irish National Morphology Database]: https://github.com/michmech/BuNaMo
