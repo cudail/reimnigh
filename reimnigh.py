@@ -163,7 +163,7 @@ class Leagan:
 			# most verbs ending in -áil are stemmed to -ál, except for the ones that aren't
 			elif briathar.endswith("áil") and len(briathar) > 4 and not briathar.endswith("dháil"):
 				fréamh = sub(r"(á)i(l)$", r"\1\2", briathar)
-			elif comhair_siollaí(briathar) > 1:
+			elif comhair_siollaí(briathar) > 1 and not briathar.endswith('uail'):
 				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 			else:
 				fréamh = briathar
@@ -607,7 +607,7 @@ def déan_rialacha():
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
-			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh', 'eoigh', 'úigh']):
+			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh', 'eoigh', 'úigh', 'uail']):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
 			and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh', 'úigh']):
