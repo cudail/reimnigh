@@ -163,7 +163,7 @@ class Leagan:
 			elif comhair_siollaí(briathar) > 1:
 				fréamh = sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 			else:
-				fréamh = briathar
+				fréamh = sub(r"(á)i(l)$", r"\1\2", briathar)
 
 			céad_litir = briathar[0]  # first letter
 			litreacha_eile = (foirm == Foirm.infinideach) and briathar[1:] or fréamh[1:]  # rest of the word
