@@ -157,13 +157,16 @@ class Leagan:
 			séimhiú = leagan.séimhiú is None and (bunleagan is None or None or bunleagan.séimhiú) or leagan.séimhiú
 			forainmnigh = leagan.forainmnigh is None and (bunleagan is None or None or bunleagan.forainmnigh) or leagan.forainmnigh
 
-			# from stems for verbs ending in -igh, il, ir, in and is
+			# from stems for verbs ending in -igh, -il, -ir, -in and -is
 			if críochnaigh_le(briathar, ['igh', 'ígh']):
 				fréamh = sub(r"^((?:.+[^a])|.)a?[ií]gh$", r"\1", briathar)
-			elif comhair_siollaí(briathar) > 1:
-				fréamh = sub(r"^(.+[^a])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
-			else:
+			# most verbs ending in -áil are stemmed to -ál, except for the ones that aren't
+			elif briathar.endswith("áil") and len(briathar) > 4 and not briathar.endswith("dháil"):
 				fréamh = sub(r"(á)i(l)$", r"\1\2", briathar)
+			elif comhair_siollaí(briathar) > 1:
+				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
+			else:
+				fréamh = briathar
 
 			céad_litir = briathar[0]  # first letter
 			litreacha_eile = (foirm == Foirm.infinideach) and briathar[1:] or fréamh[1:]  # rest of the word
