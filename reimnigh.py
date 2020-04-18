@@ -29,7 +29,7 @@ def cuir_fada(litir: str) -> str:
 
 # is this letter leniteable?
 def is_inséimhithe(focal: str) -> bool:
-	if focal[0] == 's':
+	if focal[0] == 's' and len(focal) > 1:
 		return focal[1] not in ['c', 'f', 'm', 'p', 't']
 	else:
 		return focal[0] in ['b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't']
