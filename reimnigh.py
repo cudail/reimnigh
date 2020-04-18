@@ -222,7 +222,7 @@ class Leagan:
 			# if stem ends in ó or ú and ending ends in a, remove the a
 			elif deireadh and litreacha_eile and críochnaigh_le(litreacha_eile, ['ó', 'ú', 'o']) and deireadh.startswith('a'):
 				deireadh = deireadh[1:]
-			elif deireadh and réimniú == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é'):
+			elif deireadh and réimniú == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é') and not deireadh.endswith('imis'):
 				deireadh = f"i{deireadh}"
 			# if stem ends in th and ending ends starts with t, cut off th
 			elif deireadh and litreacha_eile and deireadh.startswith('t') and litreacha_eile.endswith('th'):
@@ -599,7 +599,7 @@ def déan_rialacha():
 
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
-	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is']) and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir']):
+	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is']) and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh']):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']):
 		return déan_rialacha().get(1.5)
