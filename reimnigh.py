@@ -144,7 +144,7 @@ class Leagan:
 		self.mumhan = None
 
 	# conjugate
-	def réimnigh(self, briathar, deireadh_scartha, leaganacha, forainm, mumhan, aibhsiú):
+	def réimnigh(self, briathar, deireadh_scartha, leaganacha, forainm, réimniú, mumhan, aibhsiú):
 		aschur = []  # output stored in list
 		leagan = (mumhan and self.mumhan) and self.mumhan or self  # check if we're using the Munster form
 
@@ -222,7 +222,7 @@ class Leagan:
 			# if stem ends in ó or ú and ending ends in a, remove the a
 			elif deireadh and litreacha_eile and críochnaigh_le(litreacha_eile, ['ó', 'ú', 'o']) and deireadh.startswith('a'):
 				deireadh = deireadh[1:]
-			elif deireadh and comhair_siollaí(briathar) == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é'):
+			elif deireadh and réimniú == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é'):
 				deireadh = f"i{deireadh}"
 			# if stem ends in th and ending ends starts with t, cut off th
 			elif deireadh and litreacha_eile and deireadh.startswith('t') and litreacha_eile.endswith('th'):
@@ -284,6 +284,7 @@ class Réimniú:
 		                FoghaAimsire.foshuiteach: self.m_fosh,
 		                FoghaAimsire.ordaitheach: self.m_ord,
 		                FoghaAimsire.coinníollach: self.m_coinn}
+		self.uimhir = 1
 
 	# conjugate
 	def réimnigh(self, fréamh: str, foghannaAimsirí: list, foghannaPearsana: list, foghannaFoirmeacha: list, mumhan: bool, aibhsigh: bool):
@@ -305,19 +306,19 @@ class Réimniú:
 			aschur_aimsire = {'ainm': aimsir.ainm, 'pearsana': pearsana}
 			for p in foghannaPearsana:
 				if p == FoghaPearsan.céad_uatha:
-					pearsana.append(aimsir.céad_phearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.céad_phearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.dara_uatha:
-					pearsana.append(aimsir.dara_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.dara_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.tríú_uatha:
-					pearsana.append(aimsir.tríú_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.tríú_pearsa.uatha.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.céad_iorla:
-					pearsana.append(aimsir.céad_phearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.céad_phearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.dara_iorla:
-					pearsana.append(aimsir.dara_pearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.dara_pearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.tríú_iorla:
-					pearsana.append(aimsir.tríú_pearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.tríú_pearsa.iorla.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 				if p == FoghaPearsan.briathar_saor:
-					pearsana.append(aimsir.briathar_saor.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, mumhan, aibhsigh))
+					pearsana.append(aimsir.briathar_saor.réimnigh(fréamh, deireadh, foirmeacha, p.forainm, self.uimhir, mumhan, aibhsigh))
 			aschur.append(aschur_aimsire)
 		return aschur
 
@@ -437,6 +438,7 @@ def déan_rialacha():
 
 	# second conjugation
 	dara_réimniú = deepcopy(céad_réimniú)
+	dara_réimniú.uimhir = 2
 
 	dara_réimniú.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="[a]íomar")
 	dara_réimniú.a_chaite.briathar_saor      = Leagan(séimhiú=False, deireadh_tháite="[a]íodh")
