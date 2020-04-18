@@ -54,6 +54,20 @@ def críochnaigh_le(focal: str, deirí: list) -> bool:
 			return True
 	return False
 
+
+# does this verb have a "long" ending?
+def deireadh_fada(focal: str) -> bool:
+	gd = gutaí_deireanach(focal)
+	return gd and len(gd) > 2 or any(g in gd for g in "áóúé")
+
+
+# what is the last set of vowels in this string?
+def gutaí_deireanach(focal: str) -> str:
+	g = findall(f"[{gutaí}]+", focal)
+	if g:
+		return g[-1]
+
+
 # what is the last vowel in this string?
 def guta_deireanach(focal: str) -> str:
 	gutaí_amháin = [litir for litir in focal if is_guta(litir)]
@@ -607,10 +621,10 @@ def déan_rialacha():
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
-			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh', 'eoigh', 'úigh', 'uail']):
+			and not deireadh_fada(briathar):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
-			and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh', 'úigh']):
+			and not deireadh_fada(briathar):
 		return déan_rialacha().get(1.5)
 	return déan_rialacha().get(1)
 
