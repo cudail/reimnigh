@@ -537,7 +537,7 @@ def déan_rialacha():
 	céad_réimniú_igh = deepcopy(céad_réimniú)
 
 	céad_réimniú_igh.a_chaite.céad_phearsa.iorla = Leagan(deireadh_tháite="íomar")
-	céad_réimniú_igh.a_chaite.briathar_saor      = Leagan(deireadh_tháite="íodh")
+	céad_réimniú_igh.a_chaite.briathar_saor      = Leagan(séimhiú=False, deireadh_tháite="íodh")
 
 	céad_réimniú_igh.a_chaite.céad_phearsa.uatha.mumhan = Leagan(deireadh_tháite="íos")
 	céad_réimniú_igh.a_chaite.dara_pearsa.uatha.mumhan  = Leagan(deireadh_tháite="ís")
