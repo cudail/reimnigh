@@ -227,6 +227,10 @@ class Leagan:
 			# if stem ends in th and ending ends starts with t, cut off th
 			elif deireadh and litreacha_eile and deireadh.startswith('t') and litreacha_eile.endswith('th'):
 				litreacha_eile = litreacha_eile[:-2]
+			elif briathar.endswith('uaigh') and litreacha_eile.endswith('ui') and deireadh.startswith('t'):
+				litreacha_eile = litreacha_eile[:-1] + 'ai'
+			elif briathar.endswith('uaigh') and litreacha_eile.endswith('u') and deireadh.startswith('f'):
+				litreacha_eile += 'a'
 			# analytic 3rd person plural Munster forms that would normally end in an lenited d end in an unlenited d instead 
 			if mumhan and foirm == Foirm.scartha and forainm == 'siad' and deireadh.endswith('idh'):
 				deireadh = deireadh[:-1]
@@ -599,9 +603,11 @@ def déan_rialacha():
 
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
-	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is']) and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh']):
+	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
+			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh']):
 		return déan_rialacha().get(2)
-	elif críochnaigh_le(briathar, ['igh', 'ígh']) and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']):
+	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
+			and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']):
 		return déan_rialacha().get(1.5)
 	return déan_rialacha().get(1)
 
