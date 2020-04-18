@@ -604,10 +604,10 @@ def déan_rialacha():
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
-			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh', 'eoigh']):
+			and not críochnaigh_le(briathar, ['áil', 'áin', 'óil', 'úir', 'éigh', 'eoigh', 'úigh']):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
-			and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']):
+			and not críochnaigh_le(briathar, ['éigh', 'óigh', 'úigh', 'áigh', 'eoigh', 'uaigh', 'úigh']):
 		return déan_rialacha().get(1.5)
 	return déan_rialacha().get(1)
 
