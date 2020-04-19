@@ -5,7 +5,7 @@
 
 from copy import deepcopy
 from enum import Enum, auto
-from re import sub, findall
+from re import sub, findall, match
 from typing import List
 
 # vowels
@@ -38,13 +38,6 @@ def is_inséimhithe(focal: str) -> bool:
 # is this a vowel?
 def is_guta(litir: str) -> bool:
 	return litir.casefold() in gutaí
-
-
-# does this string end in a slender vowel?
-def is_caol(focal: str) -> bool:
-	guta = guta_deireanach(focal)
-	if guta:
-		return guta in "eéií"
 
 
 # does word end in any string from this list?
@@ -174,13 +167,22 @@ class Leagan:
 			# from stems for verbs ending in -igh, -il, -ir, -in and -is
 			if críochnaigh_le(briathar, ['igh', 'ígh']):
 				fréamh = sub(r"^((?:.+[^a])|.)a?[ií]gh$", r"\1", briathar)
+				caol = briathar[-4] not in "aáoóuú"
 			# most verbs ending in -áil are stemmed to -ál, except for the ones that aren't
 			elif briathar.endswith("áil") and len(briathar) > 4 and not briathar.endswith("dháil"):
 				fréamh = sub(r"(á)i(l)$", r"\1\2", briathar)
+				caol = False
 			elif comhair_siollaí(briathar) > 1 and not briathar.endswith('uail'):
 				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
+				if briathar.endswith('igh'):
+					caol = briathar[-4] not in "aáoóuú"
+				elif match(r".*[^á]i[lrns]$", briathar):
+					caol = briathar[-3] not in "aáoóuú"
+				else:
+					caol = guta_deireanach(briathar) in "eéií"
 			else:
 				fréamh = briathar
+				caol = guta_deireanach(briathar) in "eéií"
 
 			céad_litir = briathar[0]  # first letter
 			litreacha_eile = (foirm == Foirm.infinideach) and briathar[1:] or fréamh[1:]  # rest of the word
@@ -211,8 +213,6 @@ class Leagan:
 				else:
 					mír = mumhan and 'do' or ''
 
-			# is our stem slender or broad?
-			caol = is_caol(fréamh)
 
 			# -áil becomes -ál unless we have an analytic form ending that starts with 't'
 			# in which case it stays as -áil and takes a slender ending
@@ -223,7 +223,6 @@ class Leagan:
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
-			if caol is None: caol = is_caol(briathar)
 
 			# form the ending
 			if foirm == Foirm.táite:
