@@ -621,7 +621,7 @@ def déan_rialacha():
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
-			and not deireadh_fada(briathar):
+			and not deireadh_fada(briathar) and not briathar.endswith('uigh'):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
 			and not deireadh_fada(briathar):
