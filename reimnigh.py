@@ -219,7 +219,7 @@ class Leagan:
 			if briathar.endswith('áil') and litreacha_eile.endswith('ál') and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif críochnaigh_le(briathar, ['óigh', 'úigh', 'áigh', 'eoigh', 'uaigh']) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
+			elif deireadh_fada(briathar) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
