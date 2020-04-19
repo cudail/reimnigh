@@ -28,7 +28,7 @@ shapemap = ["Declar", "Declar", "Interrog"]
 polmap = ["Pos", "Neg", "Pos"]
 
 # Don't test against these
-irregular_verbs = ["abair", "beir", "bí", "clois", "déan", "faight", "feic", "ith", "tabhair", "tar", "téigh"]
+irregular_verbs = ["abair", "beir", "bí", "clois", "déan", "faigh", "feic", "ith", "tabhair", "tar", "téigh"]
 
 
 class ReimnightTests(unittest.TestCase):
