@@ -213,24 +213,25 @@ class Leagan:
 				else:
 					mír = mumhan and 'do' or ''
 
+			# raw verb ending definition that includes both slender and broad form information
+			amhdheireadh = {Foirm.táite: leagan.deireadh_tháite,
+			                Foirm.scartha: deireadh_scartha,
+			                Foirm.infinideach: ''}[foirm]
 
-			# -áil becomes -ál unless we have an analytic form ending that starts with 't'
-			# in which case it stays as -áil and takes a slender ending
-			if briathar.endswith('áil') and litreacha_eile.endswith('ál') and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
+			# some verbs with long vowel endings have special behaviour for endings starting with t or f
+			if briathar.endswith('áil') and litreacha_eile.endswith('ál') and amhdheireadh.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif briathar.endswith('igh') and deireadh_fada(briathar) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
+			elif briathar.endswith('iaigh') and amhdheireadh and amhdheireadh[0] in 'ft':
+				caol = False
+				litreacha_eile = litreacha_eile + 'a'
+			elif briathar.endswith('igh') and deireadh_fada(briathar) and amhdheireadh.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
 
 			# form the ending
-			if foirm == Foirm.táite:
-				deireadh = leath_nó_caolaigh(leagan.deireadh_tháite, caol)  # form the analytic ending
-			elif foirm == Foirm.scartha:
-				deireadh = leath_nó_caolaigh(deireadh_scartha, caol)  # form the synthetic ending
-			else:
-				deireadh = ''
+			deireadh = leath_nó_caolaigh(amhdheireadh, caol)  # form the analytic ending
 
 			# remove double vowels if the stem ends with the same letter the ending starts with
 			if deireadh and fréamh and cuir_fada(fréamh[-1]).casefold() == cuir_fada(deireadh[0]).casefold():
