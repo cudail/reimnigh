@@ -219,7 +219,7 @@ class Leagan:
 			if briathar.endswith('áil') and litreacha_eile.endswith('ál') and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile[:-2] + 'áil'
-			elif deireadh_fada(briathar) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
+			elif briathar.endswith('igh') and deireadh_fada(briathar) and foirm == Foirm.táite and leagan.deireadh_tháite.startswith('t'):
 				caol = True
 				litreacha_eile = litreacha_eile + 'i'
 
@@ -238,7 +238,7 @@ class Leagan:
 			# if stem ends in ó or ú and ending ends in a, remove the a
 			elif deireadh and litreacha_eile and críochnaigh_le(litreacha_eile, ['ó', 'ú', 'o']) and deireadh.startswith('a'):
 				deireadh = deireadh[1:]
-			elif deireadh and réimniú == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and fréamh.endswith('é') and not deireadh.endswith('imis'):
+			elif deireadh and réimniú == 1 and (deireadh.startswith('t') or deireadh.startswith('f')) and (céad_litir + litreacha_eile).endswith('é') and not deireadh.endswith('imis'):
 				deireadh = f"i{deireadh}"
 			# if stem ends in th and ending ends starts with t, cut off th
 			elif deireadh and litreacha_eile and deireadh.startswith('t') and litreacha_eile.endswith('th'):
