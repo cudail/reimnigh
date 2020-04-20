@@ -175,6 +175,12 @@ class Leagan:
 			elif match(r".+ai[cd]$", briathar):
 				fréamh = sub(r"ai([cd])$", r"a\1", briathar)
 				caol = False
+			elif briathar.endswith('aill') and comhair_siollaí(briathar) > 1:
+				fréamh = sub(r"aill$", réimniú == 1 and 'all' or 'l', briathar)
+				caol = False
+			elif briathar.endswith('ill') and réimniú == 2:
+				fréamh = sub(r"n?ill$", 'l', briathar)
+				caol = True
 			elif comhair_siollaí(briathar) > 1 and not deireadh_fada(briathar):
 				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 				if briathar.endswith('igh'):
@@ -625,6 +631,8 @@ def déan_rialacha():
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
 			and not deireadh_fada(briathar) and not briathar.endswith('uigh'):
+		return déan_rialacha().get(2)
+	elif briathar.endswith('dhaill') or briathar.endswith('nill'):
 		return déan_rialacha().get(2)
 	elif críochnaigh_le(briathar, ['igh', 'ígh']) \
 			and not deireadh_fada(briathar):
