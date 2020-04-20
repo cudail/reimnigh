@@ -184,7 +184,8 @@ class Leagan:
 			elif briathar.endswith('ill') and réimniú == 2:
 				fréamh = sub(r"n?ill$", 'l', briathar)
 				caol = True
-			elif comhair_siollaí(briathar) > 1 and not deireadh_fada(briathar) and not match(r".+[eou]ir$", briathar):
+			elif comhair_siollaí(briathar) > 1 and not deireadh_fada(briathar) and not match(r".+[eou]ir$", briathar)\
+					and not match(r".+[^a]ghair$", briathar):
 				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 				if briathar.endswith('igh'):
 					caol = briathar[-4] not in "aáoóuú"
@@ -633,7 +634,8 @@ def déan_rialacha():
 # detect which conjugation a verb is part of
 def cén_réimniú(briathar: str) -> Réimniú:
 	if comhair_siollaí(briathar) > 1 and críochnaigh_le(briathar, ['igh', 'ir', 'il', 'in', 'is', 'ing']) \
-			and not deireadh_fada(briathar) and not briathar.endswith('uigh') and not match(r".+[eou]ir$", briathar):
+			and not deireadh_fada(briathar) and not briathar.endswith('uigh')\
+			and not match(r".+[eou]ir$", briathar) and not match(r".+[^a]ghair$", briathar):
 		return déan_rialacha().get(2)
 	elif briathar.endswith('dhaill') or briathar.endswith('nill'):
 		return déan_rialacha().get(2)
