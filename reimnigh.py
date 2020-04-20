@@ -172,6 +172,9 @@ class Leagan:
 			elif briathar.endswith("áil") and len(briathar) > 4 and not briathar.endswith("dháil"):
 				fréamh = sub(r"(á)i(l)$", r"\1\2", briathar)
 				caol = False
+			elif match(r".+ai[cd]$", briathar):
+				fréamh = sub(r"ai([cd])$", r"a\1", briathar)
+				caol = False
 			elif comhair_siollaí(briathar) > 1 and not deireadh_fada(briathar):
 				fréamh = sub(r"^(.+[^aá])[a]?i(?:([lrns])|(gh))$", r"\1\2", briathar)
 				if briathar.endswith('igh'):
