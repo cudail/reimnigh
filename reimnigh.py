@@ -88,7 +88,7 @@ def folínigh(teaghrán: str) -> str:
 	return f"[04m{teaghrán}[24m"
 
 
-# remove ASCI escape sequences
+# remove ANSI escape sequences
 def neamhaibhsigh(teaghrán: str) -> str:
 	return sub(r"\[\d\dm", "", teaghrán)
 
@@ -164,7 +164,7 @@ class Leagan:
 			séimhiú = leagan.séimhiú is None and (bunleagan is None or None or bunleagan.séimhiú) or leagan.séimhiú
 			forainmnigh = leagan.forainmnigh is None and (bunleagan is None or None or bunleagan.forainmnigh) or leagan.forainmnigh
 
-			# from stems for verbs ending in -igh, -il, -ir, -in and -is
+			# form stems for verbs ending in -igh, -il, -ir, -in and -is
 			if críochnaigh_le(briathar, ['igh', 'ígh']):
 				fréamh = sub(r"^((?:.+[^a])|.)a?[ií]gh$", r"\1", briathar)
 				caol = briathar[-4] not in "aáoóuú"
