@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # © 2020 Caoimhe Ní Chaoimh
 # CC BY-NC-SA 4.0
