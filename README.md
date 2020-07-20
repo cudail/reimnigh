@@ -63,7 +63,7 @@ for the Munster dialect.
 The tests in test_reimnigh.py run against the [Irish National Morphology
 Database] which is included as a submodule under `test/BuNaMo`. Data is
 extracted from this as some basic JSON using `test/gramadoir` which is built
-from [my fork of the Gramadán project].
+from [my fork of the Gramadán project]. This will require Mono or .NET libraries to run.
 
 ### Licence and attribution
 
